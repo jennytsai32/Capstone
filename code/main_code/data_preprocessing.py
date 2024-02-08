@@ -27,6 +27,7 @@ df.to_csv('CABG_2018_2020.csv')
 #%%
 import pandas as pd
 import numpy as np
+from datasci import datasci
 
 #%%
 df = pd.read_csv('CABG_2018_2020.csv')
@@ -38,14 +39,64 @@ print(df.shape)
 #%% checking if -99 is read as null
 print(df['PODIAG_OTHER'].isnull().sum())
 
+#%% target variable: not imbalanced
+print(df['OTHBLEED'].value_counts())
+
 #%%
-features = ['OTHBLEED','SEX','RACE_NEW','HEIGHT','WEIGHT','INOUT','AGE',
+# df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
+
+# df.to_csv('CABG_2018_2020.csv')
+#%%
+features = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
             'ANESTHES','DIABETES','SMOKE','DYSPNEA','FNSTATUS2',
             'HXCOPD','ASCITES','HXCHF','HYPERMED','DIALYSIS',
-            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','YEAR']
+            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','PUFYEAR']
+
+df_20 = df[features]
+df_20.head()
+
+#%%
+#df_20.to_csv('CABG_2018_2020_preselect.csv')
+# %%
+
+m = datasci(df_20)
+m.size()
+
+# %%
+#print(m.missingReport())
+# %%
+print(df_20.isnull().sum())
+
+# %%
+print(m.eda('OTHBLEED'))
 
 
 #%%
-print(df['OTHBLEED'].value_counts())
+binary_features = df_20.columns[11:21].to_list()
+
+#%%
+binary_features.append('SMOKE')
+print(binary_features)
+
+#%%
+old = ['Yes','No']
+new = [1,0]
+
+for f in binary_features:
+    m.recode(column = str(f), oldVal=old, newVal=new, inplace=True)
+
+# %%
+    
+print(df_20['HXCOPD'].value_counts())
+print(df_20['DISCANCR'].value_counts())
+
+
+#%%
+df_20.to_csv('check.csv')
+# %%
+#features = df_20.iloc[:, 1:].columns
+features = binary_features
+target = 'OTHBLEED'
+m.featureSelection(features, target)
 
 # %%

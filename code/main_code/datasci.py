@@ -130,13 +130,14 @@ class datasci():
         :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
         '''
         new_name = str(column) + '_NEW'
-        self.df[new_name] = self.df[column].replace(oldVal, newVal)
+        
 
         if inplace == True:
             self.df[column].replace(oldVal, newVal, inplace=True)
             return self.df[column].value_counts()
         
         else:
+            self.df[new_name] = self.df[column].replace(oldVal, newVal)
             return self.df[new_name].value_counts()
         
 
