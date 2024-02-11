@@ -57,8 +57,17 @@ df_20.head()
 
 #%%
 #df_20.to_csv('CABG_2018_2020_preselect.csv')
-# %%
 
+
+# %%
+import pandas as pd
+import numpy as np
+from datasci import datasci
+
+df_20 = pd.read_csv('CABG_2018_2020_preselect.csv',index_col=[0])
+#df_20_recode = pd.read_csv('CABG_20_recoded.csv',index_col=[0])
+
+print(df_20.head())
 m = datasci(df_20)
 m.size()
 
@@ -72,31 +81,55 @@ print(m.eda('OTHBLEED'))
 
 
 #%%
-binary_features = df_20.columns[11:21].to_list()
+cat_features = df_20.columns[1:].to_list()
 
-#%%
-binary_features.append('SMOKE')
-print(binary_features)
+cat_features.remove('BMI')
+cat_features.remove('AGE')
 
-#%%
-old = ['Yes','No']
-new = [1,0]
-
-for f in binary_features:
-    m.recode(column = str(f), oldVal=old, newVal=new, inplace=True)
-
-# %%
-    
-print(df_20['HXCOPD'].value_counts())
-print(df_20['DISCANCR'].value_counts())
+print(cat_features)
 
 
 #%%
-df_20.to_csv('check.csv')
+
+m.recode(col_list=cat_features,inplace=True)
+
+
+#%%
+
+m.recode(col_list=['OTHBLEED'],inplace=True)
+
+#%%
+# df_20.to_csv('check.csv')
+
+
 # %%
 #features = df_20.iloc[:, 1:].columns
-features = binary_features
+features = cat_features
 target = 'OTHBLEED'
 m.featureSelection(features, target)
+
+
+#%%
+
+# %%
+# AGE, BMI
+
+# %% Standarization: AGE & BMI
+df_20['AGE'].replace('90+','90', inplace=True)
+df_20['AGE'] = df_20['AGE'].astype(float)
+type(df_20['AGE'][0])
+
+
+#%%
+df_20['AGE_NEW'] = (df_20['AGE'] - df_20['AGE'].mean())/(df_20['AGE'].std())
+print(df_20['AGE_NEW'])
+
+# %%
+df_20['BMI_NEW'] = (df_20['BMI'] - df_20['BMI'].mean())/(df_20['BMI'].std())
+print(df_20['BMI_NEW'])
+
+# %%
+
+df_20.to_csv('CABG_20_recoded.csv')
 
 # %%

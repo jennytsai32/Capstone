@@ -121,7 +121,7 @@ class datasci():
 
 
 
-    def recode(self, column, oldVal, newVal, inplace=False):
+    def recode(self, col_list, inplace=False):
         '''
         recode the variable by replacing a list of old values with new values.
         :: column: column name whose values to be recoded.
@@ -129,16 +129,22 @@ class datasci():
         :: newVal: list of new values to replace the old values.
         :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
         '''
-        new_name = str(column) + '_NEW'
-        
 
-        if inplace == True:
-            self.df[column].replace(oldVal, newVal, inplace=True)
-            return self.df[column].value_counts()
-        
-        else:
-            self.df[new_name] = self.df[column].replace(oldVal, newVal)
-            return self.df[new_name].value_counts()
+
+        for col in col_list:
+            oldVal = sorted(self.df[col].unique().tolist())
+            newVal = list(range(0,len(oldVal)))
+            new_name = str(col) + '_NEW'
+
+            #res = {test_keys[i]: test_values[i] for i in range(len(test_keys))}
+
+            if inplace == True:
+                self.df[col].replace(oldVal, newVal, inplace=True)
+                #return self.df[col].value_counts()
+            
+            else:
+                self.df[new_name] = self.df[col].replace(oldVal, newVal)
+                #return self.df[new_name].value_counts()
         
 
     def eda(self, column, insight=False):
@@ -208,37 +214,6 @@ class datasci():
         plt.tight_layout()
         plt.show()
 
-
-    def column_tolist (self):
-        x = self.df.columns
-        temp = []
-        for i in x:
-            temp.append(i)
-        return temp
-        
-
-    def file_comparsion(file1_path , file2_path):
-        try: 
-            with open(file1_path, 'r') as f1, open(file2_path, 'r') as f2:
-                print('Comparison Started...')
-                Indicator = True
-                for line_num, (line1, line2) in enumerate(zip(f1, f2), start = 1):
-                    if line1 != line2:
-                        print(f'\nDifference found at line {line_num}: \n{file1_path}: {line1}\n{file2_path}: {line2}')
-                        column1 = line1.split(',')
-                        column2 = line2.split(',')
-                        for col_num, (col1, col2) in enumerate(zip(column1, column2), start = 1):
-                            if col1 != col2:
-                                col2 = ('NULL' if col2 == '' else col2)
-                                print(f"\nAt column {col_num}: \nOrignial Data: {col1} \nTarget Data: {col2}")
-                        Indicator = False
-            if Indicator:
-                print('\{file1_path} and {file2_path} have same structure and content.')
-        
-            print('Comparison Completed!')
-        except Exception as e:
-            print(f'Error:{e}')
-            return False  
 
 
 # %%
