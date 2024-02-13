@@ -1,4 +1,5 @@
-#%% Merge datasets, no need to re-run ***************
+#%% Merge and convert datasets ***************
+'''
 import pandas as pd
 
 df_20 = pd.read_spss('data/CABG 2020 Original.sav')
@@ -20,101 +21,147 @@ print(df.head())
 print(df.shape)
 
 #%%
-df.to_csv('CABG_2018_2020.csv')
+df.to_csv('CABG_2018_2020.csv', index=False)
+'''
 
-# Run codes starting here ****************************
+# Data preprocessing ****************************
 #*****************************************************
 #%%
 import pandas as pd
 import numpy as np
 from datasci import datasci
 
-#%%
 df = pd.read_csv('CABG_2018_2020.csv')
 
 print(df.head())
 print(df.shape)
 
 
-#%% checking if -99 is read as null
-print(df['PODIAG_OTHER'].isnull().sum())
+#%% 
+m = datasci(df)
+m.size()
 
-#%% target variable: not imbalanced
-print(df['OTHBLEED'].value_counts())
+#%% Missing values analysis: NULL & -99 **************
+# (1) Missing as NULL
+missing = m.missingReport()
+print(missing) # 104 features with missing values
+# missing.to_csv('missing_report.csv',index=True )
+
 
 #%%
-# df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
+missing_check = missing[missing['Percent of Nans']<50]
+missing_check.index
 
-# df.to_csv('CABG_2018_2020.csv')
+# DISCHDEST: discharge destination, post-surgery variable
+# READMISSION1: Any readminssion, post-surgery variable
+
+
+#%% Cut down to 173 features after dropping variables with missing values (NULL)
+df = df.drop(missing.index, axis=1)
+df.shape
+
+
 #%%
+# df.to_csv('CABG_173.csv', index=False)
+
+
+#%% 
+# (2) Missing as -99 ********************
+
+import pandas as pd
+import numpy as np
+from datasci import datasci
+
+df = pd.read_csv('CABG_173.csv')
+
+print(df.head())
+print(df.shape)
+
+#%% How to treat -99: no response??
+
+for col in df.columns:
+    df[col].replace(-99, np.nan, inplace=True)
+
+#%%
+m = datasci(df)
+print(m.missingReport())
+
+#%%
+missing99 = m.missingReport()
+missing99.to_csv('missing99_report.csv',index=True)
+
+
+#%%
+df.to_csv('CABG_173_nan.csv', index=False)
+
+
+
+#%% Imputation ***************************
+
+#%% not skewed
+m.eda('WEIGHT')
+
+#%% not skewed
+m.eda('HEIGHT')
+
+#%%
+m.imputation(['WEIGHT','HEIGHT'],impute='mean')
+
+#%% calculate BMI using weight and height after imputation
+
+df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
+
+
+#%% 20 pre-select features + target + year
 features = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
             'ANESTHES','DIABETES','SMOKE','DYSPNEA','FNSTATUS2',
             'HXCOPD','ASCITES','HXCHF','HYPERMED','DIALYSIS',
             'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','PUFYEAR']
 
 df_20 = df[features]
-df_20.head()
 
 #%%
-#df_20.to_csv('CABG_2018_2020_preselect.csv')
+df_20.to_csv('CABG_2018_2020_preselect.csv', index=False)
 
 
+# RECODING (20 FEATURES ONLY) **************************
 # %%
 import pandas as pd
 import numpy as np
 from datasci import datasci
 
-df_20 = pd.read_csv('CABG_2018_2020_preselect.csv',index_col=[0])
-#df_20_recode = pd.read_csv('CABG_20_recoded.csv',index_col=[0])
+df_20 = pd.read_csv('CABG_2018_2020_preselect.csv')
 
 print(df_20.head())
 m = datasci(df_20)
 m.size()
 
-# %%
-#print(m.missingReport())
-# %%
+
+# %% check no missing values
 print(df_20.isnull().sum())
 
-# %%
+# %% target variable EDA
 print(m.eda('OTHBLEED'))
 
-
-#%%
+#%% categorical features
 cat_features = df_20.columns[1:].to_list()
-
 cat_features.remove('BMI')
 cat_features.remove('AGE')
+#print(cat_features)
 
-print(cat_features)
 
-
-#%%
-
+#%% (1) recode categorical features
 m.recode(col_list=cat_features,inplace=True)
 
 
-#%%
-
+#%% (2) recode target varible
 m.recode(col_list=['OTHBLEED'],inplace=True)
 
 #%%
-# df_20.to_csv('check.csv')
 
+# %% (3) recode continuous variable
 
-# %%
-#features = df_20.iloc[:, 1:].columns
-features = cat_features
-target = 'OTHBLEED'
-m.featureSelection(features, target)
-
-
-#%%
-
-# %%
-# AGE, BMI
-
-# %% Standarization: AGE & BMI
+# Standarization: AGE & BMI
 df_20['AGE'].replace('90+','90', inplace=True)
 df_20['AGE'] = df_20['AGE'].astype(float)
 type(df_20['AGE'][0])
@@ -129,7 +176,11 @@ df_20['BMI_NEW'] = (df_20['BMI'] - df_20['BMI'].mean())/(df_20['BMI'].std())
 print(df_20['BMI_NEW'])
 
 # %%
-
 df_20.to_csv('CABG_20_recoded.csv')
 
-# %%
+
+# %% feature selection using random forest
+features = cat_features.append('BMI_NEW')
+features = features.append('AGE_NEW')
+target = 'OTHBLEED'
+m.featureSelection(features, target)
