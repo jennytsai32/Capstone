@@ -27,6 +27,7 @@ df.to_csv('CABG_2018_2020.csv')
 #%%
 import pandas as pd
 import numpy as np
+from datasci import datasci
 
 #%%
 df = pd.read_csv('CABG_2018_2020.csv')
@@ -38,14 +39,97 @@ print(df.shape)
 #%% checking if -99 is read as null
 print(df['PODIAG_OTHER'].isnull().sum())
 
+#%% target variable: not imbalanced
+print(df['OTHBLEED'].value_counts())
+
 #%%
-features = ['OTHBLEED','SEX','RACE_NEW','HEIGHT','WEIGHT','INOUT','AGE',
+# df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
+
+# df.to_csv('CABG_2018_2020.csv')
+#%%
+features = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
             'ANESTHES','DIABETES','SMOKE','DYSPNEA','FNSTATUS2',
             'HXCOPD','ASCITES','HXCHF','HYPERMED','DIALYSIS',
-            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','YEAR']
+            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','PUFYEAR']
+
+df_20 = df[features]
+df_20.head()
+
+#%%
+#df_20.to_csv('CABG_2018_2020_preselect.csv')
+
+
+# %%
+import pandas as pd
+import numpy as np
+from datasci import datasci
+
+df_20 = pd.read_csv('CABG_2018_2020_preselect.csv',index_col=[0])
+#df_20_recode = pd.read_csv('CABG_20_recoded.csv',index_col=[0])
+
+print(df_20.head())
+m = datasci(df_20)
+m.size()
+
+# %%
+#print(m.missingReport())
+# %%
+print(df_20.isnull().sum())
+
+# %%
+print(m.eda('OTHBLEED'))
 
 
 #%%
-print(df['OTHBLEED'].value_counts())
+cat_features = df_20.columns[1:].to_list()
+
+cat_features.remove('BMI')
+cat_features.remove('AGE')
+
+print(cat_features)
+
+
+#%%
+
+m.recode(col_list=cat_features,inplace=True)
+
+
+#%%
+
+m.recode(col_list=['OTHBLEED'],inplace=True)
+
+#%%
+# df_20.to_csv('check.csv')
+
+
+# %%
+#features = df_20.iloc[:, 1:].columns
+features = cat_features
+target = 'OTHBLEED'
+m.featureSelection(features, target)
+
+
+#%%
+
+# %%
+# AGE, BMI
+
+# %% Standarization: AGE & BMI
+df_20['AGE'].replace('90+','90', inplace=True)
+df_20['AGE'] = df_20['AGE'].astype(float)
+type(df_20['AGE'][0])
+
+
+#%%
+df_20['AGE_NEW'] = (df_20['AGE'] - df_20['AGE'].mean())/(df_20['AGE'].std())
+print(df_20['AGE_NEW'])
+
+# %%
+df_20['BMI_NEW'] = (df_20['BMI'] - df_20['BMI'].mean())/(df_20['BMI'].std())
+print(df_20['BMI_NEW'])
+
+# %%
+
+df_20.to_csv('CABG_20_recoded.csv')
 
 # %%
