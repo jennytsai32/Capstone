@@ -41,7 +41,7 @@ Transfusions/Intraop/Postop,male,White,38.12837837837838,Inpatient,55,General,IN
 Transfusions/Intraop/Postop,male,White,22.66816326530612,Inpatient,72,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,Yes,Yes,No,No,No,No,Yes,No,2018
 Transfusions/Intraop/Postop,male,White,26.62878787878788,Inpatient,72,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2018
 Transfusions/Intraop/Postop,male,White,26.51585663351473,Inpatient,69,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-No Complication,male,White,9.39628609325579,Inpatient,60,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
+No Complication,male,White,20.6201606806968,Inpatient,60,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,21.115101869355176,Inpatient,75,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,30.81081081081081,Inpatient,57,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,30.782248520710063,Inpatient,56,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2018
@@ -611,7 +611,7 @@ Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.389489619377162,Inpatie
 Transfusions/Intraop/Postop,male,White,37.400086505190316,Inpatient,59,General,NON-INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,White,21.480555555555554,Inpatient,57,General,INSULIN,Yes,No,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,White,31.477611940298505,Inpatient,76,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-Transfusions/Intraop/Postop,female,White,10.615651464136311,Inpatient,50,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
+Transfusions/Intraop/Postop,female,White,23.296059394985694,Inpatient,50,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,White,30.89887963228957,Inpatient,51,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,White,29.950295857988166,Inpatient,72,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,23.460455246913583,Inpatient,60,General,INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
@@ -834,7 +834,7 @@ No Complication,male,Unknown/Not Reported,35.437933207309385,Inpatient,63,Genera
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,22.432736455463726,Inpatient,75,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,Yes,No,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,26.936065938961903,Inpatient,64,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,female,Unknown/Not Reported,30.358480749219563,Inpatient,67,General,NON-INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
-No Complication,male,Unknown/Not Reported,-7.101010101010101,Inpatient,68,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
+No Complication,male,Unknown/Not Reported,30.126465334045655,Inpatient,68,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,30.122243226212984,Inpatient,56,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,29.53374655647383,Inpatient,79,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,25.291360946745563,Inpatient,66,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
@@ -1209,7 +1209,7 @@ Transfusions/Intraop/Postop,male,White,33.37072043688301,Inpatient,46,General,NO
 Transfusions/Intraop/Postop,male,White,37.15857142857143,Inpatient,57,General,INSULIN,No,No,Partially Dependent,No,No,No,Yes,No,No,No,No,Yes,No,2018
 Transfusions/Intraop/Postop,male,White,36.86844444444444,Inpatient,41,General,NON-INSULIN,No,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,Black or African American,39.101775147929,Inpatient,54,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-Transfusions/Intraop/Postop,male,White,15.636567697173758,Inpatient,71,General,NO,Yes,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,Yes,No,2018
+Transfusions/Intraop/Postop,male,White,34.31446586558704,Inpatient,71,General,NO,Yes,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,Yes,No,2018
 Transfusions/Intraop/Postop,female,White,37.785541521096484,Inpatient,79,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,Yes,Yes,No,No,No,No,Yes,No,2018
 Transfusions/Intraop/Postop,male,White,37.770650887573964,Inpatient,66,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,33.14142857142858,Inpatient,65,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
@@ -1349,7 +1349,7 @@ Transfusions/Intraop/Postop,male,White,28.309660781590956,Inpatient,72,General,N
 Transfusions/Intraop/Postop,male,White,32.839100346020764,Inpatient,61,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.68279163517259,Inpatient,62,General,NO,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,Black or African American,35.184326171875,Inpatient,62,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-No Complication,male,Unknown/Not Reported,13.26956433017039,Inpatient,59,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2018
+No Complication,male,Unknown/Not Reported,29.12007424373212,Inpatient,59,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2018
 No Complication,female,Unknown/Not Reported,37.41552734375,Inpatient,55,General,NON-INSULIN,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.32854623330814,Inpatient,63,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,female,Unknown/Not Reported,20.479785969084425,Inpatient,72,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
@@ -1397,15 +1397,15 @@ No Complication,male,Unknown/Not Reported,29.704225352112676,Inpatient,58,Genera
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.62414201183432,Inpatient,56,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,21.464416896235075,Inpatient,63,General,NO,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,24.363579080025207,Inpatient,74,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,11.33292521171309,Inpatient,34,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2018
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.87011746221446,Inpatient,34,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,25.085423875432525,Inpatient,81,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 No Complication,female,Unknown/Not Reported,21.963214915595866,Inpatient,84,General,NO,No,No,Independent,Yes,No,No,No,No,No,No,No,No,No,2018
-No Complication,male,Unknown/Not Reported,11.835016835016836,Inpatient,78,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
+No Complication,male,Unknown/Not Reported,25.971958109274592,Inpatient,78,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 No Complication,female,Unknown/Not Reported,22.483642578125,Inpatient,55,General,NON-INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,27.612378496330095,Inpatient,63,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,29.798442906574394,Inpatient,70,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.346774193548388,Inpatient,64,General,INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,10.974288337924701,Inpatient,86,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.083088428600078,Inpatient,86,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,Unknown/Not Reported,29.911561595010024,Inpatient,67,General,NO,No,AT REST,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 Transfusions/Intraop/Postop,male,White,33.71530612244898,Inpatient,73,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
 No Complication,male,White,33.469549692521326,Inpatient,67,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2018
@@ -2444,7 +2444,7 @@ Transfusions/Intraop/Postop,male,White,28.126081314878896,Inpatient,77,General,N
 Transfusions/Intraop/Postop,male,White,28.350346565847513,Inpatient,65,General,NON-INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,White,26.037037037037035,Inpatient,72,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2019
 No Complication,male,White,28.498004620877968,Inpatient,71,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2019
-Transfusions/Intraop/Postop,female,White,13.986838077747167,Inpatient,58,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+Transfusions/Intraop/Postop,female,White,30.694132310960885,Inpatient,58,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,White,38.981726528040326,Inpatient,60,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,Yes,No,2019
 Transfusions/Intraop/Postop,male,White,38.00821799307958,Inpatient,62,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,White,24.938457403923675,Inpatient,67,General,NO,No,MODERATE EXERTION,Partially Dependent,No,No,No,Yes,No,No,No,No,Yes,No,2019
@@ -3076,10 +3076,10 @@ No Complication,male,Unknown/Not Reported,25.82448979591837,Inpatient,66,General
 No Complication,male,Unknown/Not Reported,22.886998529720646,Inpatient,75,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,29.841632653061225,Inpatient,78,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2019
 No Complication,male,Unknown/Not Reported,30.69458676765427,Inpatient,73,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-No Complication,female,Unknown/Not Reported,11.548107335986122,Inpatient,71,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,female,Unknown/Not Reported,25.34233488238309,Inpatient,71,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,female,Unknown/Not Reported,35.24741748551273,Inpatient,69,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,female,Unknown/Not Reported,25.694168234345607,Inpatient,81,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-No Complication,male,Unknown/Not Reported,11.691562085501479,Inpatient,69,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,male,Unknown/Not Reported,25.65714649582884,Inpatient,69,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,28.404040404040405,Inpatient,74,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.071531169204253,Inpatient,69,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,36.76685570258349,Inpatient,58,General,NO,No,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2019
@@ -3090,9 +3090,9 @@ Transfusions/Intraop/Postop,female,Unknown/Not Reported,21.110595703125,Inpatien
 No Complication,female,Unknown/Not Reported,31.821540062434963,Inpatient,67,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,33.075404326822095,Inpatient,62,General,NON-INSULIN,Yes,AT REST,Independent,Yes,No,Yes,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,25.229736328125,Inpatient,73,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
-No Complication,male,Unknown/Not Reported,12.98265483113968,Inpatient,66,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,male,Unknown/Not Reported,28.490451016840616,Inpatient,66,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,female,Unknown/Not Reported,37.785541521096484,Inpatient,64,General,NON-INSULIN,No,AT REST,Independent,No,No,No,No,No,No,No,No,No,No,2019
-No Complication,female,Unknown/Not Reported,12.121926334047547,Inpatient,83,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,female,Unknown/Not Reported,26.6015813361661,Inpatient,83,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,24.389795918367348,Inpatient,76,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,34.76631766540432,Inpatient,79,General,NO,No,AT REST,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,29.53374655647383,Inpatient,89,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,Yes,2019
@@ -3102,11 +3102,11 @@ No Complication,male,Unknown/Not Reported,24.363579080025207,Inpatient,65,Genera
 No Complication,male,Unknown/Not Reported,33.245638200183656,Inpatient,59,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,30.272040816326534,Inpatient,68,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,26.647776318258586,Inpatient,58,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-No Complication,male,Unknown/Not Reported,12.767472706866645,Inpatient,53,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,male,Unknown/Not Reported,28.018233596671987,Inpatient,53,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,21.303030303030305,Inpatient,44,General,INSULIN,Yes,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,No,Yes,2019
 No Complication,male,Unknown/Not Reported,32.18840307750047,Inpatient,49,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,31.821540062434963,Inpatient,61,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,Yes,No,2019
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,11.691562085501479,Inpatient,48,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.65714649582884,Inpatient,48,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,female,Unknown/Not Reported,34.51146193771626,Inpatient,71,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,26.95156106519743,Inpatient,70,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,15.331726354453627,Inpatient,66,General,NO,Yes,No,Independent,No,No,Yes,Yes,No,Yes,No,No,No,No,2019
@@ -3223,7 +3223,7 @@ Transfusions/Intraop/Postop,male,Black or African American,26.578449905482042,In
 No Complication,female,White,27.620828402366865,Inpatient,80,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,Yes,Yes,No,No,No,No,Yes,No,2019
 Transfusions/Intraop/Postop,female,White,34.71959183673469,Inpatient,61,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,Yes,2019
 Transfusions/Intraop/Postop,male,White,34.3848427841978,Inpatient,64,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,Yes,2019
-Transfusions/Intraop/Postop,male,White,-7.101010101010101,Inpatient,60,General,NON-INSULIN,No,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2019
+Transfusions/Intraop/Postop,male,White,30.126465334045655,Inpatient,60,General,NON-INSULIN,No,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,White,31.79315886134068,Inpatient,63,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,Yes,No,No,Yes,2019
 Transfusions/Intraop/Postop,male,White,26.541836734693877,Inpatient,49,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,Yes,No,No,No,No,Yes,2019
 Transfusions/Intraop/Postop,male,White,27.3659169550173,Inpatient,37,General,NO,Yes,No,Independent,No,No,Yes,Yes,No,No,No,No,No,Yes,2019
@@ -3387,23 +3387,23 @@ Transfusions/Intraop/Postop,female,Unknown/Not Reported,41.32748538011696,Inpati
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,23.62855501292732,Inpatient,60,General,NON-INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,27.59710743801653,Inpatient,77,General,INSULIN,No,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,27.77237301800591,Inpatient,77,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-Transfusions/Intraop/Postop,female,Unknown/Not Reported,11.40465258647077,Inpatient,74,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+Transfusions/Intraop/Postop,female,Unknown/Not Reported,25.027523268937333,Inpatient,74,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.529656607700314,Inpatient,79,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,35.15,Inpatient,55,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,22.214880781384657,Inpatient,77,General,NO,No,No,Independent,Yes,No,No,Yes,No,No,Yes,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,26.622485207100592,Inpatient,67,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,34.57377049180328,Inpatient,53,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,27.82201557093426,Inpatient,66,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
-No Complication,male,Unknown/Not Reported,-7.101010101010101,Inpatient,61,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,male,Unknown/Not Reported,30.126465334045655,Inpatient,61,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,26.92265054169816,Inpatient,80,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,28.202688510817055,Inpatient,73,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-Transfusions/Intraop/Postop,female,Unknown/Not Reported,-7.101010101010101,Inpatient,58,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
+Transfusions/Intraop/Postop,female,Unknown/Not Reported,30.126465334045655,Inpatient,58,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,29.0204475308642,Inpatient,59,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2019
-No Complication,female,Unknown/Not Reported,12.33710845832058,Inpatient,68,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
+No Complication,female,Unknown/Not Reported,27.073798756334725,Inpatient,68,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,26.309645800846514,Inpatient,71,General,NO,No,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.963673469387757,Inpatient,59,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2019
 No Complication,male,Unknown/Not Reported,24.409722222222225,Inpatient,74,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,-7.101010101010101,Inpatient,72,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,Yes,2019
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.126465334045655,Inpatient,72,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,Yes,2019
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.638322321172076,Inpatient,79,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 No Complication,male,White,23.528979591836734,Inpatient,90+,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2019
 Transfusions/Intraop/Postop,male,White,24.96270581233882,Inpatient,51,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2019
@@ -3682,7 +3682,7 @@ No Complication,male,White,33.356872354644686,Inpatient,74,General,NO,No,No,Inde
 No Complication,male,White,41.5003341501448,Inpatient,45,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Asian,22.296366309598824,Inpatient,59,General,INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,25.5472972972973,Inpatient,53,General,INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,-7.101010101010101,Inpatient,76,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.126465334045655,Inpatient,76,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.179292929292927,Inpatient,73,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,27.249479708636837,Inpatient,85,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,22.80493079584775,Inpatient,67,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
@@ -3945,7 +3945,7 @@ Transfusions/Intraop/Postop,male,White,27.115714285714283,Inpatient,60,General,N
 Transfusions/Intraop/Postop,male,White,26.430791850451584,Inpatient,86,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,34.4043268220962,Inpatient,73,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Asian,25.83983069725997,Inpatient,55,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,White,11.97847158453219,Inpatient,76,General,NO,No,AT REST,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,White,26.286769722720347,Inpatient,76,General,NO,No,AT REST,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,34.94201183431952,Inpatient,59,General,NO,Yes,No,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,27.689591836734696,Inpatient,88,General,NON-INSULIN,No,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,25.033783783783786,Inpatient,78,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -3971,13 +3971,13 @@ No Complication,male,White,29.55000938262338,Inpatient,49,General,NO,No,No,Indep
 Transfusions/Intraop/Postop,male,White,30.12857142857143,Inpatient,65,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,29.0204475308642,Inpatient,64,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,22.86433504121185,Inpatient,61,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,White,-7.101010101010101,Inpatient,51,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+No Complication,male,White,30.126465334045655,Inpatient,51,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,White,34.69964293215711,Inpatient,45,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,25.291360946745563,Inpatient,83,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
 No Complication,male,Black or African American,40.314897959183675,Inpatient,57,General,INSULIN,Yes,No,Independent,No,No,Yes,Yes,Yes,No,No,No,Yes,No,2020
 No Complication,male,White,28.309660781590956,Inpatient,65,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,23.83050847457627,Inpatient,53,General,INSULIN,No,MODERATE EXERTION,Partially Dependent,No,No,Yes,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,White,-7.101010101010101,Inpatient,77,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,White,30.126465334045655,Inpatient,77,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,26.28313379542113,Inpatient,55,General,NO,Yes,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,White,25.499081726354454,Inpatient,71,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,27.808264046359287,Inpatient,66,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4015,7 +4015,7 @@ Transfusions/Intraop/Postop,male,American Indian or Alaska Native,28.43014705882
 No Complication,male,White,25.394081632653062,Inpatient,61,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Black or African American,25.249527410207943,Inpatient,69,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
 Transfusions/Intraop/Postop,male,Black or African American,40.24749387391401,Inpatient,66,General,INSULIN,No,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2020
-No Complication,male,Black or African American,11.117743087440058,Inpatient,64,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2020
+No Complication,male,Black or African American,24.397900042045833,Inpatient,64,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,No,No,2020
 No Complication,male,White,32.078935986159166,Inpatient,73,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,23.42868478476493,Inpatient,63,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Black or African American,27.72972972972973,Inpatient,57,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4349,9 +4349,9 @@ Transfusions/Intraop/Postop,male,White,36.614583333333336,Inpatient,67,General,N
 Transfusions/Intraop/Postop,male,White,30.4494674556213,Inpatient,59,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,29.531611006091154,Inpatient,53,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.851191802183113,Inpatient,79,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,15.062748699112335,Inpatient,65,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,33.05521941180403,Inpatient,65,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,female,Unknown/Not Reported,43.765869140625,Inpatient,65,General,NO,No,MODERATE EXERTION,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,10.759106213651668,Inpatient,79,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,23.61087100843145,Inpatient,79,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,26.986304012345677,Inpatient,75,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,27.259183673469387,Inpatient,78,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,29.038278546712803,Inpatient,55,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4376,13 +4376,13 @@ No Complication,male,Unknown/Not Reported,25.107142857142854,Inpatient,73,Genera
 No Complication,male,Unknown/Not Reported,38.0872359963269,Inpatient,62,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,female,Unknown/Not Reported,43.079345703125,Inpatient,63,General,INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,31.47038567493113,Inpatient,62,General,NO,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,19.79675543311907,Inpatient,75,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,43.44400265551387,Inpatient,75,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,38.616943359375,Inpatient,80,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,33.77143929442672,Inpatient,56,General,NO,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,11.189470462197734,Inpatient,84,General,NO,No,No,Partially Dependent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,24.555305848768707,Inpatient,84,General,NO,No,No,Partially Dependent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,29.210973370064277,Inpatient,67,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,27.4609375,Inpatient,75,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,female,Unknown/Not Reported,10.472196714620958,Inpatient,75,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,female,Unknown/Not Reported,22.981247781539942,Inpatient,75,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,22.081309868567608,Inpatient,66,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,28.494933333333332,Inpatient,77,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,30.272040816326534,Inpatient,58,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4408,8 +4408,8 @@ No Complication,male,Unknown/Not Reported,31.303507666456625,Inpatient,75,Genera
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.743595455558033,Inpatient,67,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,41.14854318418314,Inpatient,82,General,NON-INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,41.78944444444444,Inpatient,74,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,14.775839200081625,Inpatient,43,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,11.476379961228446,Inpatient,72,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,32.42559618491252,Inpatient,43,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,25.184929075660214,Inpatient,72,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,30.869206230061923,Inpatient,71,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,24.47729238754325,Inpatient,72,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,36.61919764755304,Inpatient,58,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4429,24 +4429,24 @@ Transfusions/Intraop/Postop,female,Unknown/Not Reported,33.29906777525825,Inpati
 No Complication,male,Unknown/Not Reported,25.724338525051607,Inpatient,55,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.781358131487888,Inpatient,72,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,25.997621107266433,Inpatient,79,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,female,Unknown/Not Reported,11.691562085501479,Inpatient,74,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,female,Unknown/Not Reported,25.65714649582884,Inpatient,74,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,28.749228395061728,Inpatient,80,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,26.578449905482042,Inpatient,62,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,28.64566267590842,Inpatient,75,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,22.73934047469019,Inpatient,59,General,NO,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,41.8779296875,Inpatient,75,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,13.054382205897358,Inpatient,79,General,NON-INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,28.64785682356349,Inpatient,79,General,NON-INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,29.53374655647383,Inpatient,75,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,16.85593306805428,Inpatient,70,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,36.99036457987594,Inpatient,70,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,33.72979797979798,Inpatient,42,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,35.27479289940828,Inpatient,63,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,13.054382205897358,Inpatient,58,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,28.64785682356349,Inpatient,58,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,32.0749851219996,Inpatient,66,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,38.40530697190427,Inpatient,72,General,INSULIN,No,No,Independent,No,No,No,Yes,Yes,No,No,No,Yes,No,2020
 No Complication,male,Unknown/Not Reported,28.726813590449954,Inpatient,66,General,NON-INSULIN,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.319091796875,Inpatient,74,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,27.91988062442608,Inpatient,62,General,NO,No,MODERATE EXERTION,Independent,No,No,No,No,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,19.222936435057647,Inpatient,65,General,INSULIN,No,No,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,42.184756201730856,Inpatient,65,General,INSULIN,No,No,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,30.102508650519027,Inpatient,59,General,NO,Yes,No,Independent,No,No,No,No,No,No,No,No,Yes,No,2020
 No Complication,male,Unknown/Not Reported,34.85950413223141,Inpatient,69,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,Yes,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,32.18945599663936,Inpatient,77,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
@@ -4456,18 +4456,18 @@ Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.89542143600416,Inpati
 No Complication,male,Unknown/Not Reported,28.758491274160257,Inpatient,57,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,29.53374655647383,Inpatient,75,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,27.213884083044984,Inpatient,79,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,16.1386593204775,Inpatient,53,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,35.416306512647175,Inpatient,53,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.886474609375,Inpatient,65,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,23.09857142857143,Inpatient,80,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,33.295198961937714,Inpatient,70,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,30.381376698596572,Inpatient,68,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,12.33710845832058,Inpatient,72,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,27.073798756334725,Inpatient,72,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,32.22297297297297,Inpatient,74,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,Yes,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,15.27793082338537,Inpatient,62,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,33.52743683197266,Inpatient,62,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,27.061851211072664,Inpatient,69,General,NON-INSULIN,Yes,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,26.466250835375362,Inpatient,52,General,NON-INSULIN,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,13.34129170492807,Inpatient,73,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,13.197836955412713,Inpatient,78,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
+No Complication,male,Unknown/Not Reported,29.277480050454997,Inpatient,73,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,28.962668437009246,Inpatient,78,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
 No Complication,male,Unknown/Not Reported,23.09857142857143,Inpatient,61,General,NON-INSULIN,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,female,Unknown/Not Reported,32.91841424877909,Inpatient,71,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,23.86916089965398,Inpatient,73,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4479,12 +4479,12 @@ Transfusions/Intraop/Postop,female,Unknown/Not Reported,28.528083848427844,Inpat
 No Complication,male,Unknown/Not Reported,20.639555643721483,Inpatient,72,General,NON-INSULIN,Yes,No,Independent,No,No,Yes,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,26.254897959183673,Inpatient,58,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,31.563265306122446,Inpatient,73,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,12.050198959289867,Inpatient,76,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,26.444175529443225,Inpatient,76,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,female,Unknown/Not Reported,34.698117539026626,Inpatient,73,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,26.77946090443306,Inpatient,66,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,27.43236212278876,Inpatient,70,General,NO,Yes,MODERATE EXERTION,Independent,Yes,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,female,Unknown/Not Reported,15.851749821446791,Inpatient,76,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,11.835016835016836,Inpatient,76,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+No Complication,female,Unknown/Not Reported,34.78668328575567,Inpatient,76,General,NON-INSULIN,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,25.971958109274592,Inpatient,76,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,24.853535353535353,Inpatient,58,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,30.401507637373538,Inpatient,72,General,NO,Yes,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,21.297988165680472,Inpatient,40,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
@@ -4496,7 +4496,7 @@ Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.12259472326919,Inpatien
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,33.826687458231234,Inpatient,85,General,NO,No,MODERATE EXERTION,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,24.11717531744264,Inpatient,58,General,NO,Yes,No,Independent,Yes,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,male,Unknown/Not Reported,27.90737240075614,Inpatient,71,General,NO,No,AT REST,Independent,No,No,No,No,No,No,No,No,No,No,2020
-Transfusions/Intraop/Postop,male,Unknown/Not Reported,-7.101010101010101,Inpatient,72,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+Transfusions/Intraop/Postop,male,Unknown/Not Reported,30.126465334045655,Inpatient,72,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,27.632568359375,Inpatient,76,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,27.289306640625,Inpatient,68,General,INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,No,2020
 Transfusions/Intraop/Postop,female,Unknown/Not Reported,47.45906348750359,Inpatient,76,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,Yes,Yes,2020
@@ -4914,7 +4914,7 @@ No Complication,male,Unknown/Not Reported,29.28514145689463,Inpatient,52,General
 No Complication,male,Unknown/Not Reported,30.26990128124344,Inpatient,57,General,NO,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,White,32.48477210670028,Inpatient,47,General,NO,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,American Indian or Alaska Native,27.90737240075614,Inpatient,59,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
-No Complication,male,Unknown/Not Reported,17.50147944087338,Inpatient,52,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
+No Complication,male,Unknown/Not Reported,38.40701684038183,Inpatient,52,General,NO,No,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,White,23.55731922398589,Inpatient,54,General,NON-INSULIN,Yes,No,Independent,No,No,No,No,No,No,No,No,No,No,2020
 No Complication,male,Unknown/Not Reported,25.694168234345607,Inpatient,59,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
 No Complication,male,Black or African American,22.31201171875,Inpatient,65,General,NON-INSULIN,No,No,Independent,No,No,No,Yes,No,No,No,No,No,No,2020
