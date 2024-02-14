@@ -15,7 +15,7 @@ sys.path.append(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folde
 from class_datasci import datasci
 
 # read in original data
-df = 
+df =
 
 # check the data
 size(df)
@@ -34,13 +34,15 @@ eda(df)
 standardize(df)
 
 
-# ALTERNATIVE - import clean data
-df = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/CABG_20_recoded.csv',index_col=0)
-df = df.drop(['PUFYEAR'], axis=1)
 
 # ==============================================================================
 # STEP2. Baseline models and results (before feature selection)               ||
 # ==============================================================================
+
+# ALTERNATIVE - import clean data
+df = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/CABG_20_recoded.csv',index_col=0)
+df = df.drop(['PUFYEAR','AGE','BMI'], axis=1)
+
 
 from class_baseline_classification_models import BaselineClassificationModels
 
