@@ -124,12 +124,9 @@ class datasci():
     def recode(self, col_list, inplace=False):
         '''
         recode the variable by replacing a list of old values with new values.
-        :: column: column name whose values to be recoded.
-        :: oldVal: list of original values within the variable/column.
-        :: newVal: list of new values to replace the old values.
+        :: col_list: list of column name whose values to be recoded.
         :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
         '''
-
 
         for col in col_list:
             oldVal = sorted(self.df[col].unique().tolist())
@@ -213,6 +210,9 @@ class datasci():
     
         plt.tight_layout()
         plt.show()
+
+    def standardize(self):
+        pass
 
 
 
