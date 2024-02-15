@@ -4,6 +4,11 @@ import seaborn as sns
 import sys
 import os
 
+#np.set_printoptions(linewidth=desired_width)
+
+pd.set_option('display.width', 400)
+pd.set_option('display.max_columns', 15)
+
 # os.chdir(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code')
 # print('Current working directory:', os.getcwd())
 
