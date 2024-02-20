@@ -43,7 +43,7 @@ class LogReg:
         self.y_pred = self.model.predict(self.X_test)
 
         # build a model results table
-        self.results_table = pd.DataFrame(columns=['Model Name', 'Parameters', 'Target', 'Mean Accuracy (10 folds)', 'RMSE', 'F1-score'])
+        self.results_table = pd.DataFrame(columns=['Model Name', 'Parameters', 'Target', 'Mean Accuracy ('+str(self.k_folds)+' folds)', 'RMSE', 'F1-score'])
 
     def Predict(self):
         self.model.fit(self.X_train, self.y_train)

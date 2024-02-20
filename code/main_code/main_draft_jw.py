@@ -102,4 +102,16 @@ model_log.Display_Model_Results()
 #===============================================
 model_xgb = XGB(df,'OTHBLEED',0.3,100, 5,100, 0.3)
 model_xgb.Display_Model_Results()
+model_xgb.Accuracy()
+
+
+
+from utils_models import *
+
+a= model_decision_tree.Display_Model_Results()
+b=model_SVM.Display_Model_Results()
+c=model_SVM2.Display_Model_Results()
+
+Results_Table([a,b,c])
+
 
