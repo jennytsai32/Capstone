@@ -2,9 +2,9 @@
 '''
 import pandas as pd
 
-df_20 = pd.read_spss('data/CABG 2020 Original.sav')
-df_19 = pd.read_spss('data/CABG 2019 Original.sav')
-df_18 = pd.read_spss('data/CABG 2018.sav')
+df_20 = pd.read_spss('raw_data/CABG 2020 Original.sav')
+df_19 = pd.read_spss('raw_data/CABG 2019 Original.sav')
+df_18 = pd.read_spss('raw_data/CABG 2018.sav')
 
 print(f'2020 size:{df_20.shape}')
 print(f'2019 size:{df_19.shape}')
@@ -20,8 +20,35 @@ df = pd.concat([df_1, df_20], axis=0)
 print(df.head())
 print(df.shape)
 
+
 #%%
-df.to_csv('CABG_2018_2020.csv', index=False)
+import pandas as pd
+import pyreadstat
+
+df_18_20 = pd.read_csv('processed_data/CABG_2018_2020.csv')
+df_21 = pd.read_spss('raw_data/CABG 2021 Original.sav')
+df_22, meta = pyreadstat.read_sav("raw_data/CABG 2022 Original.sav", encoding="latin1")
+
+print(f'2020 size:{df_21.shape}')
+print(f'2022 size:{df_22.shape}')
+
+#%%
+df_1 = pd.concat([df_18_20, df_21], axis=0)
+df = pd.concat([df_1, df_22], axis=0)
+print(df.head())
+print(df.shape)
+
+#%%
+df.to_csv('processed_data/CABG_18_22.csv', index=False)
+
+
+#%%
+import sys
+import os
+
+path = os.path.abspath(os.path.join(os.curdir, os.pardir))
+sys.path.append(path)
+print(sys.path )
 '''
 
 # Data preprocessing ****************************
@@ -31,113 +58,147 @@ import pandas as pd
 import numpy as np
 from datasci import datasci
 
-df = pd.read_csv('CABG_2018_2020.csv')
+
+df = pd.read_csv('processed_data/CABG_18_22.csv')
 
 print(df.head())
-print(df.shape)
+print(df.shape) # (8587, 303)
 
 
 #%% 
 m = datasci(df)
 m.size()
 
-#%% Missing values analysis: NULL & -99 **************
-# (1) Missing as NULL
-missing = m.missingReport()
-print(missing) # 104 features with missing values
-# missing.to_csv('missing_report.csv',index=True )
-
-
 #%%
-missing_check = missing[missing['Percent of Nans']<50]
-missing_check.index
-
-# DISCHDEST: discharge destination, post-surgery variable
-# READMISSION1: Any readminssion, post-surgery variable
-
-
-#%% Cut down to 173 features after dropping variables with missing values (NULL)
-df = df.drop(missing.index, axis=1)
-df.shape
-
-
-df.to_csv('CABG_173.csv',index=False)
-
-#%%
-
-df.columns.to_csv()
-
-#%% 
-# (2) Missing as -99 ********************
-
-# How to treat -99: no response??
+# recode -99 as nan
 
 for col in df.columns:
     df[col].replace(-99, np.nan, inplace=True)
 
 #%%
-m = datasci(df)
-missing99 = m.missingReport()
-missing99
-#missing99.to_csv('missing99_report.csv',index=True)
+m.remove_all_nan_columns()
+
+#%% 
+missing = m.missingReport()
+print(missing) # 165 features with missing values
 
 
 #%%
-missing_50up = missing99[missing99['Percent of Nans']>50]
-missing_50up.index
+missing_50up = missing[missing['Percent of Nans']>50]
 
-#%% Cut down to 125 features after dropping -99 (variables with over 50% missing)
-df = df.drop(missing_50up.index, axis=1)
-df.shape
-
-#%% Cut down to 120 features by dropping irrelevant features
-df = df.drop(['CASEID','PRNCPTX','CPT','WORKRVU','DOTHBLEED'], axis=1)
-
+#%% Cut down to 129 features after dropping variables with over 50% missing
+df.drop(missing_50up.index, axis=1, inplace=True)
+df.shape (8587, 129)
 
 #%%
-#%%
-#df.to_csv('CABG_120.csv', index=False)
+df.to_csv('CABG_129.csv', index=False)
 
 
-#%% 120 features
+#%% 129 features *****************
 import pandas as pd
 import numpy as np
 from datasci import datasci
 
-df = pd.read_csv('CABG_120.csv')
+df = pd.read_csv('processed_data/CABG_129.csv')
+df_preselect = pd.read_csv('preselect_features.csv')
 
 print(df.head())
 print(df.shape)
 
+#%%
+preselct_features = df_preselect.Name.tolist()
+preselct_features.remove('PRPT')
+df_preselect = df[preselct_features]
 
 #%% 
-m = datasci(df)
+m = datasci(df_preselect)
+m.missingReport()
+
+#%% Preselect 43 features ******************
+#++++++++++++++++++++++++++++++++++++++++
+import pandas as pd
+import numpy as np
+from datasci import datasci
+
+df = pd.read_csv('processed_data/CABG_2018_2020.csv')
+df_preselect = pd.read_csv('preselect_features.csv')
+
+print(df.head())
+print(df.shape) #(4953, 276)
+print(df_preselect.shape) # (43, 2)
+
+#%%
+preselct_features = df_preselect.Name.tolist()
+df_43 = df[preselct_features]
+df_43['OTHBLEED'] = df['OTHBLEED']
+
+cols = df_43.columns.tolist()
+order = cols[-1:] + cols[:-1]
+df_43 = df_43[order]
+
+print(df_43.head())
+print(df_43.shape)
+
+#%%
+df_43.to_csv('processed_data/CABG_preselect_original.csv',index=False)
+
+#%%
+df_43.dtypes.to_csv('processed_data/dtype.csv')
+#%%
+# recode -99 as nan
+for col in df_43.columns:
+    df_43[col].replace(-99, np.nan, inplace=True)
+
+df_43['PRPT']
+
+#%%
+m = datasci(df_43)
+m.missingReport()
+
+#%%
+m.remove_all_nan_columns()
 m.missingReport()
 
 
-#%% Imputation ***************************
+#%%
+#check = df_43[df_43.dtypes.sort_values().index]
 
-#%% not skewed
-m.eda('WEIGHT') # 0.18% missing
-
-#%% not skewed
-m.eda('HEIGHT') # 0.97% missing
+#check.to_csv('test.csv',index=False)
+#%%
+df_43['AGE'].replace('90+','90', inplace=True)
+df_43['AGE'] = df_43['AGE'].astype(float)
+type(df_43['AGE'][0])
 
 #%%
-m.imputation(['WEIGHT','HEIGHT'],impute='mean')
+numeric_cols = df_43.select_dtypes(include=['int64', 'float64']).columns
+
+#%% Imputation ***************************
+m.impute_all()
 
 #%% calculate BMI using weight and height after imputation
-df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
+df_43['BMI']= (df_43['WEIGHT']/df_43['HEIGHT']**2) *703
+
+df_43['BMI']
+
 
 #%%
-df = df.drop(['DOTHBLEED'], axis=1) # 45% missing
+df_43['PUFYEAR'] = df_43['PUFYEAR'].astype('int32')
+type(df_43['PUFYEAR'][0])
+#%%
+# standardize
+m.standardize()
 
-#%% 119 features, 2840 rows, no missing
-df = df.dropna()
-df.shape
 
 #%%
-df.to_csv('CABG_119_2840.csv', index=False)
+df_43.drop(['HEIGHT','WEIGHT'],axis=1)
+
+
+#%%
+df_43.head()
+#%%
+df_43.to_csv('processed_data/CABG_preselect.csv',index=False)
+
+
 
 
 #%% Whole dataset (119 features, 2840 observations)
@@ -163,14 +224,7 @@ idx = df2.columns.get_loc('WNDCLAS')
 #%%
 cat_features = df2.columns[idx:].to_list()
 
-#%%
-m = datasci(df)
 
-#%%
-m.recode(col_list=cat_features,inplace=True)
-
-#%%
-df.to_csv('CABG_119_2840_recoded.csv',index=False)
 #%% 20 pre-select features + target + year
 features = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
             'ANESTHES','DIABETES','SMOKE','DYSPNEA','FNSTATUS2',
@@ -245,3 +299,4 @@ target = 'OTHBLEED'
 m.featureSelection(cat_features, target)
 
 # %%
+
