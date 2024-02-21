@@ -1,25 +1,24 @@
-# This class includes functions for SVM model
+# This class includes functions for RandomForest model
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, root_mean_squared_error, f1_score
-from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+class RandomForest:
 
-class SVM:
-
-    def __init__(self, df, target, test_size, random_state, k_folds, kernel, C, gamma): # starting point: kernel can be linder or rbf; C=1.0; gamma=0.2 (for rbf)
+    def __init__(self, df, target, test_size, random_state, k_folds, n_estimators, feature_importances):   # starting point: n_estimators=100
         self.df = df
         self.target = target
         self.test_size = test_size
         self.random_state = random_state
         self.k_folds = k_folds
-        self.model_name = 'SVM - ' + kernel
-        self.parameters = 'C=' + str(C) + ', gamma=' + str(gamma)
+        self.model_name = 'Random Forest'
+        self.parameters = 'n_estimators='+str(n_estimators) + ', ' +str(feature_importances) + '_features'
 
         self.X = df.drop([target], axis=1).values
         self.y = df[target].values
@@ -28,19 +27,41 @@ class SVM:
         self.y_train = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)[2]
         self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)[3]
 
-        self.class_names = self.df[self.target].unique()
-        self.feature_names = self.df.drop([self.target], axis=1).columns
-
-        # get y_pred
-        self.model = SVC(kernel=kernel, C=C, random_state=self.random_state, gamma=gamma, probability=True)
+        # build model
+        self.model = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
         self.model.fit(self.X_train, self.y_train)
-        self.y_pred = self.model.predict(self.X_test)
 
-        # build a model results table
-        self.results_table = pd.DataFrame(columns=['Model Name', 'Parameters', 'Target', 'Mean Accuracy ('+str(self.k_folds)+' folds)', 'RMSE', 'F1-score'])
+        # get feature importances
+        self.importances = self.model.feature_importances_
+
+        # convert the importances into one-dimensional 1darray with corresponding df column names as axis labels
+        self.f_importances = pd.Series(self.importances, self.df.iloc[:, 1:].columns)
+
+        # sort the array in descending order of the importances
+        self.f_importances.sort_values(ascending=False, inplace=True)
+
+        # select NEW X_train, X_test on k-features
+        self.newX_train = self.X_train[:, self.model.feature_importances_.argsort()[::-1][:feature_importances]]
+        self.newX_test = self.X_test[:, self.model.feature_importances_.argsort()[::-1][:feature_importances]]
+
+        # build the model again
+        self.model_k_features = RandomForestClassifier(n_estimators=n_estimators, random_state=random_state)
+        self.model_k_features.fit(self.newX_train, self.y_train)
+
+        # make prediction
+        self.y_pred = self.model_k_features.predict(self.newX_test)
+
+        # get feature and class names
+        self.class_names = self.df[self.target].unique()
+        self.feature_names = self.f_importances.index
+
+    def Random_Forest_Feature_Importances_Plot(self):
+        self.f_importances.plot(x='Features', y='Importance', kind='bar', figsize=(16, 9), rot=90, fontsize=15)
+        plt.title('Feature Importances - Random Forest')
+        plt.tight_layout()
+        plt.show()
 
     def Predict(self):
-        # display results
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print(f'Y-test prediction: {self.y_pred}')
@@ -97,10 +118,19 @@ class SVM:
         plt.tight_layout()
         plt.show()
 
+    def Decision_Tree_Plot(self):
+        # plot the tree
+        print('Target: ', self.target)
+        print('Model: ', self.model_name)
+        print('Plot the decision tree: ')
+        plt.figure(figsize=(15, 10))
+        tree.plot_tree(self.model_k_features, filled=True, feature_names=self.feature_names, class_names=['Transfusions','No'], rounded=True, fontsize=14)
+        plt.show()
+
     def ROC_AUC_Score(self):
         print('Target: ', self.target)
         print('Model: ', self.model_name)
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
+        y_pred_proba = self.model_k_features.predict_proba(self.newX_test)[:,1]
         auc = roc_auc_score(self.y_test, y_pred_proba)
         print(f'ROC-AUC score: {auc:.3f}')
         print('-' * 80)
@@ -111,7 +141,7 @@ class SVM:
         print('Model: ', self.model_name)
         print('Plot ROC Aarea Under Curve: ')
 
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
+        y_pred_proba = self.model_k_features.predict_proba(self.newX_test)[:,1]
         fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
         auc = roc_auc_score(self.y_test, y_pred_proba)
 
@@ -134,19 +164,19 @@ class SVM:
         report = classification_report(self.y_test, self.y_pred, output_dict=True)
 
         kf = KFold(n_splits=self.k_folds, shuffle=True, random_state=self.random_state)
-        scores = cross_val_score(self.model, self.X, self.y, cv=kf)
+        scores = cross_val_score(self.model_k_features, self.X, self.y, cv=kf)
         mean_accuracy = scores.mean() * 100
         rmse = root_mean_squared_error(self.y_test, self.y_pred)
 
         f1 = report['macro avg']['f1-score']
 
         # ROC-AUC
-        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
+        y_pred_proba = self.model_k_features.predict_proba(self.newX_test)[:,1]
         fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
         auc = roc_auc_score(self.y_test, y_pred_proba)
 
         # construct the table
-        dict = {'Model Name':self.model_name,
+        dict = {'Model Name': self.model_name,
                 'Parameters': self.parameters,
                 'Target': self.target,
                 'Mean Accuracy ('+str(self.k_folds)+' folds)': mean_accuracy,
@@ -155,3 +185,4 @@ class SVM:
                 'ROC-AUC score': auc}
         results_table = pd.DataFrame([dict])
         return results_table
+

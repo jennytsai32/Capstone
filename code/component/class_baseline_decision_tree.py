@@ -1,16 +1,11 @@
-# build a class of basic classification models for our baseline model construction
-# including Decision Tree, SVM, LogisticRegression, and XGBoost
+# This class includes functions for Decision Tree model
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn import tree
 from sklearn.model_selection import cross_val_score, KFold
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, root_mean_squared_error, f1_score
+from sklearn import tree
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, mean_squared_error, f1_score
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-import xgboost as xgb
-from xgboost import XGBClassifier
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -18,7 +13,7 @@ import seaborn as sns
 
 class DecisionTree:
 
-    def __init__(self, df, target, test_size, random_state, k_folds, criterion, max_depth, min_samples_leaf):   # usually criterion = 'gini' or 'entropy', max_depth=3, min_samples_leaf=5
+    def __init__(self, df, target, test_size, random_state, k_folds, criterion, max_depth, min_samples_leaf):   # starting point: criterion = 'gini' or 'entropy', max_depth=3, min_samples_leaf=5
         self.df = df
         self.target = target
         self.test_size = test_size
@@ -42,19 +37,11 @@ class DecisionTree:
         self.model.fit(self.X_train, self.y_train)
         self.y_pred = self.model.predict(self.X_test)
 
-        # build a model results table
-        self.results_table = pd.DataFrame(columns=['Model Name', 'Parameters', 'Target', 'Mean Accuracy ('+str(self.k_folds)+' folds)', 'RMSE', 'F1-score'])
-
     def Predict(self):
-        self.model.fit(self.X_train, self.y_train)
-
-        # # make predictions
-        # y_pred = self.model.predict(self.X_test)
-
-        # display results
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print(f'Y-test prediction: {self.y_pred}')
+        print('-' * 80)
 
 
     def Report(self):
@@ -62,6 +49,7 @@ class DecisionTree:
         print('Model: ', self.model_name)
         print('Report: ' + '\n',
               classification_report(self.y_test, self.y_pred))
+        print('-' * 80)
 
     def Accuracy(self):
         # perform cross validation
@@ -71,18 +59,21 @@ class DecisionTree:
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print(f'Model Accuracy (mean of {self.k_folds} folds): {mean_accuracy}')
+        print('-' * 80)
 
 
     def RMSE(self):
-        rmse = mean_squared_error(self.y_test, self.y_pred, squared=False)
+        rmse = root_mean_squared_error(self.y_test, self.y_pred)
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print(f'RMSE: {rmse: .3f}')
+        print('-' * 80)
 
     def Confusion_Matrix(self):
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print('Confusion Matrix: ' + '\n', confusion_matrix(self.y_test, self.y_pred))
+        print('-' * 80)
 
     def Confusion_Matrix_Plot(self):
         print('Plot confusion matrix: ')
@@ -112,42 +103,62 @@ class DecisionTree:
         tree.plot_tree(self.model, filled=True, feature_names=self.feature_names, class_names=['Transfusions','No'], rounded=True, fontsize=14)
         plt.show()
 
+    def ROC_AUC_Score(self):
+        print('Target: ', self.target)
+        print('Model: ', self.model_name)
+        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
+        auc = roc_auc_score(self.y_test, y_pred_proba)
+        print(f'ROC-AUC score: {auc:.3f}')
+        print('-' * 80)
+
     def ROC_AUC_Plot(self):
         # Plot ROC Area Under Curve
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print('Plot ROC Aarea Under Curve: ')
 
-        y_pred_proba = self.model.decision_function(self.X_test)
+        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
         fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
         auc = roc_auc_score(self.y_test, y_pred_proba)
 
         plt.figure(figsize=(10, 10))
         lw = 2
         plt.plot(fpr, tpr, color='darkorange',
-                 lw=lw, label='ROC curve (area = %0.2f)' % auc)
+                 lw=lw, label='AUC=' + str(auc))
         plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
         plt.xlim([0.0, 1.0])
         plt.ylim([0.0, 1.05])
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
-        plt.title('Receiver operating characteristic example')
+        plt.title(f'Receiver Operating Characteristic (ROC) Plot - {self.model_name}')
         plt.legend(loc="lower right")
         plt.show()
 
+        return fpr, tpr, auc, self.model_name
+
     def Display_Model_Results(self):
-        print('Target: ', self.target)
-        print('Model: ', self.model_name)
-        print('Model Results:' + '\n')
         report = classification_report(self.y_test, self.y_pred, output_dict=True)
 
         kf = KFold(n_splits=self.k_folds, shuffle=True, random_state=self.random_state)
         scores = cross_val_score(self.model, self.X, self.y, cv=kf)
         mean_accuracy = scores.mean() * 100
-        rmse = mean_squared_error(self.y_test, self.y_pred, squared=False)
+        rmse = root_mean_squared_error(self.y_test, self.y_pred)
 
         f1 = report['macro avg']['f1-score']
-        self.results_table.loc[len(self.results_table.index)] = [self.model_name, self.parameters, self.target, mean_accuracy, rmse, f1]
 
-        return self.results_table
+        # ROC-AUC
+        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
+        fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
+        auc = roc_auc_score(self.y_test, y_pred_proba)
+
+        # construct the table
+        dict = {'Model Name': self.model_name,
+                'Parameters': self.parameters,
+                'Target': self.target,
+                'Mean Accuracy ('+str(self.k_folds)+' folds)': mean_accuracy,
+                'RMSE': rmse,
+                'F1-score': f1,
+                'ROC-AUC score': auc}
+        results_table = pd.DataFrame([dict])
+        return results_table
 

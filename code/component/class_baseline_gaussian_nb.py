@@ -1,25 +1,25 @@
-# This class includes functions for SVM model
+# This class includes functions for GaussianNB model
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score, KFold
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, root_mean_squared_error, f1_score
-from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-class SVM:
+class NaiveBayesGaussianNB:
 
-    def __init__(self, df, target, test_size, random_state, k_folds, kernel, C, gamma): # starting point: kernel can be linder or rbf; C=1.0; gamma=0.2 (for rbf)
+    def __init__(self, df, target, test_size, random_state, k_folds):
         self.df = df
         self.target = target
         self.test_size = test_size
         self.random_state = random_state
         self.k_folds = k_folds
-        self.model_name = 'SVM - ' + kernel
-        self.parameters = 'C=' + str(C) + ', gamma=' + str(gamma)
+        self.model_name = 'GaussianNB'
+        self.parameters = ''
 
         self.X = df.drop([target], axis=1).values
         self.y = df[target].values
@@ -32,15 +32,11 @@ class SVM:
         self.feature_names = self.df.drop([self.target], axis=1).columns
 
         # get y_pred
-        self.model = SVC(kernel=kernel, C=C, random_state=self.random_state, gamma=gamma, probability=True)
+        self.model = GaussianNB()
         self.model.fit(self.X_train, self.y_train)
         self.y_pred = self.model.predict(self.X_test)
 
-        # build a model results table
-        self.results_table = pd.DataFrame(columns=['Model Name', 'Parameters', 'Target', 'Mean Accuracy ('+str(self.k_folds)+' folds)', 'RMSE', 'F1-score'])
-
     def Predict(self):
-        # display results
         print('Target: ', self.target)
         print('Model: ', self.model_name)
         print(f'Y-test prediction: {self.y_pred}')
@@ -100,7 +96,7 @@ class SVM:
     def ROC_AUC_Score(self):
         print('Target: ', self.target)
         print('Model: ', self.model_name)
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
+        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
         auc = roc_auc_score(self.y_test, y_pred_proba)
         print(f'ROC-AUC score: {auc:.3f}')
         print('-' * 80)
@@ -111,7 +107,7 @@ class SVM:
         print('Model: ', self.model_name)
         print('Plot ROC Aarea Under Curve: ')
 
-        y_pred_proba = self.model.predict_proba(self.X_test)[:, 1]
+        y_pred_proba = self.model.predict_proba(self.X_test)[:,1]
         fpr, tpr, _ = roc_curve(self.y_test, y_pred_proba)
         auc = roc_auc_score(self.y_test, y_pred_proba)
 
@@ -146,7 +142,7 @@ class SVM:
         auc = roc_auc_score(self.y_test, y_pred_proba)
 
         # construct the table
-        dict = {'Model Name':self.model_name,
+        dict = {'Model Name': self.model_name,
                 'Parameters': self.parameters,
                 'Target': self.target,
                 'Mean Accuracy ('+str(self.k_folds)+' folds)': mean_accuracy,
@@ -155,3 +151,4 @@ class SVM:
                 'ROC-AUC score': auc}
         results_table = pd.DataFrame([dict])
         return results_table
+
