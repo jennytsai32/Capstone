@@ -14,14 +14,15 @@ print(f'Total sample size:{df_20.shape[0]+df_19.shape[0]+df_18.shape[0]}')
 print(f'Total number of features: 274 - 276')
 
 
-#%%
+
 df_1 = pd.concat([df_18, df_19], axis=0)
 df = pd.concat([df_1, df_20], axis=0)
 print(df.head())
 print(df.shape)
 
-
+'''
 #%%
+'''
 import pandas as pd
 import pyreadstat
 
@@ -32,28 +33,30 @@ df_22, meta = pyreadstat.read_sav("raw_data/CABG 2022 Original.sav", encoding="l
 print(f'2020 size:{df_21.shape}')
 print(f'2022 size:{df_22.shape}')
 
-#%%
+
 df_1 = pd.concat([df_18_20, df_21], axis=0)
 df = pd.concat([df_1, df_22], axis=0)
 print(df.head())
 print(df.shape)
 
-#%%
+
 df.to_csv('processed_data/CABG_18_22.csv', index=False)
-
+'''
 
 #%%
+'''
 import sys
 import os
 
 path = os.path.abspath(os.path.join(os.curdir, os.pardir))
 sys.path.append(path)
 print(sys.path )
-'''
 
+'''
 # Data preprocessing ****************************
 #*****************************************************
 #%%
+'''
 import pandas as pd
 import numpy as np
 from datasci import datasci
@@ -65,55 +68,31 @@ print(df.head())
 print(df.shape) # (8587, 303)
 
 
-#%% 
 m = datasci(df)
 m.size()
 
-#%%
 # recode -99 as nan
 
 for col in df.columns:
     df[col].replace(-99, np.nan, inplace=True)
 
-#%%
+
 m.remove_all_nan_columns()
 
-#%% 
+
 missing = m.missingReport()
 print(missing) # 165 features with missing values
 
 
-#%%
 missing_50up = missing[missing['Percent of Nans']>50]
 
-#%% Cut down to 129 features after dropping variables with over 50% missing
+#Cut down to 129 features after dropping variables with over 50% missing
 df.drop(missing_50up.index, axis=1, inplace=True)
-df.shape (8587, 129)
+df.shape #(8587, 129)
 
-#%%
 df.to_csv('CABG_129.csv', index=False)
 
-
-#%% 129 features *****************
-import pandas as pd
-import numpy as np
-from datasci import datasci
-
-df = pd.read_csv('processed_data/CABG_129.csv')
-df_preselect = pd.read_csv('preselect_features.csv')
-
-print(df.head())
-print(df.shape)
-
-#%%
-preselct_features = df_preselect.Name.tolist()
-preselct_features.remove('PRPT')
-df_preselect = df[preselct_features]
-
-#%% 
-m = datasci(df_preselect)
-m.missingReport()
-
+'''
 #%% Preselect 43 features ******************
 #++++++++++++++++++++++++++++++++++++++++
 import pandas as pd
@@ -140,10 +119,9 @@ print(df_43.head())
 print(df_43.shape)
 
 #%%
-df_43.to_csv('processed_data/CABG_preselect_original.csv',index=False)
+#df_43.to_csv('processed_data/CABG_preselect_original.csv',index=False)
+#df_43.dtypes.to_csv('processed_data/dtype.csv')
 
-#%%
-df_43.dtypes.to_csv('processed_data/dtype.csv')
 #%%
 # recode -99 as nan
 for col in df_43.columns:
@@ -162,39 +140,38 @@ m.missingReport()
 
 #%%
 #check = df_43[df_43.dtypes.sort_values().index]
-
 #check.to_csv('test.csv',index=False)
+
 #%%
 df_43['AGE'].replace('90+','90', inplace=True)
 df_43['AGE'] = df_43['AGE'].astype(float)
 type(df_43['AGE'][0])
 
 #%%
-numeric_cols = df_43.select_dtypes(include=['int64', 'float64']).columns
-
+std_cols = df_43.select_dtypes(include=['int64', 'float64']).columns.tolist()
+std_cols.remove('PUFYEAR')
+std_cols
 #%% Imputation ***************************
 m.impute_all()
 
 #%% calculate BMI using weight and height after imputation
 df_43['BMI']= (df_43['WEIGHT']/df_43['HEIGHT']**2) *703
-
-df_43['BMI']
-
-
+std_cols.append('BMI')
 #%%
 df_43['PUFYEAR'] = df_43['PUFYEAR'].astype('int32')
 type(df_43['PUFYEAR'][0])
+
 #%%
 # standardize
-m.standardize()
+m.standardize(col_list=std_cols)
 
 
 #%%
 df_43.drop(['HEIGHT','WEIGHT'],axis=1)
 
-
 #%%
 df_43.head()
+
 #%%
 df_43.to_csv('processed_data/CABG_preselect.csv',index=False)
 

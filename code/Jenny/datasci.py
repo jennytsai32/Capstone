@@ -219,7 +219,7 @@ class datasci():
         for col in col_list:
             self.df[col] = (self.df[col] - self.df[col].mean())/(self.df[col].std())
 
-
+    # code obtained from Prof. Amir Jafari
     def remove_all_nan_columns(self):
         """
         Remove columns with all NaN values from a DataFrame
@@ -230,7 +230,7 @@ class datasci():
         # Drop columns with all NaNs
         self.df.drop(all_nan_cols, axis=1, inplace=True)
     
-
+    # code modified from Prof. Amir Jafari
     def impute_all(self, num_strategy ='mean', bool_strategy='most_frequent'):
         '''
         impute the all dataframe based on the column type.
@@ -239,7 +239,7 @@ class datasci():
         '''
 
         # (1) impute numeric features:
-        numeric_cols = self.df.select_dtypes(include=['int64', 'float64']).columns
+        numeric_cols = self.df.select_dtypes(include=['int8', 'int16', 'int32', 'int64', 'float16', 'float32', 'float64']).columns
 
         for col in numeric_cols:
             if num_strategy == 'mean':
