@@ -93,11 +93,16 @@ df.shape #(8587, 129)
 df.to_csv('CABG_129.csv', index=False)
 
 '''
+
+
 #%% Preselect 43 features ******************
 #++++++++++++++++++++++++++++++++++++++++
 import pandas as pd
 import numpy as np
 from datasci import datasci
+from glossary import *
+
+glossary('PUFYEAR')
 
 df = pd.read_csv('processed_data/CABG_2018_2020.csv')
 df_preselect = pd.read_csv('preselect_features.csv')
