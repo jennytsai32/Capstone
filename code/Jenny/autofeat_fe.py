@@ -16,14 +16,22 @@ warnings.filterwarnings("ignore")
 
 
 # import encoded dataset
-#df = pd.read_csv('CABG_preselect.csv')
+df = pd.read_csv('CABG_preselect.csv')
 #df = pd.read_csv('CABG_20_recoded.csv')
-df = pd.read_csv('try_data.csv')
+#df = pd.read_csv('try_data.csv')
 print(df.head())
+
+# select top 9 important features
+
+df = df[['OTHBLEED','PRHCT','BMI','RACE_NEW','PRPTT','PRPLATE','PRBILI','PRCREAT','AGE','PRBUN']]
+print(df.head())
+df.to_csv('CABG_top_features.csv',index=False)
 
 # change data types to avoid errors
 print(df.dtypes)
 df=df.astype('float32')
+df['OTHBLEED']=df['OTHBLEED'].astype('int32')
+df['RACE_NEW']=df['RACE_NEW'].astype('int32')
 print(df.dtypes)
 
 
@@ -49,3 +57,4 @@ X_test_feature_creation = model.transform(X_test)
 print(X_train_feature_creation.head())
 
 print('Number of new features -', X_train_feature_creation.shape[1] - X_train.shape[1])
+X_train_feature_creation.to_csv('CABG_autofeat_data.csv',index=False)
