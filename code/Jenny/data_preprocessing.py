@@ -1,5 +1,7 @@
 #%% Merge and convert datasets ***************
 '''
+### year 2018 - 2020 ###
+
 import pandas as pd
 
 df_20 = pd.read_spss('raw_data/CABG 2020 Original.sav')
@@ -22,11 +24,14 @@ print(df.shape)
 
 '''
 #%%
-'''
+### year 2018 - 2022 ###
+
 import pandas as pd
 import pyreadstat
+from datasci import *
 
-df_18_20 = pd.read_csv('processed_data/CABG_2018_2020.csv')
+#df_18_20 = pd.read_csv('processed_data/CABG_2018_2020.csv')
+df_18_21 = pd.read_csv('processed_data/CABG_2018_2021.csv')
 df_21 = pd.read_spss('raw_data/CABG 2021 Original.sav')
 df_22, meta = pyreadstat.read_sav("raw_data/CABG 2022 Original.sav", encoding="latin1")
 
@@ -34,14 +39,55 @@ print(f'2020 size:{df_21.shape}')
 print(f'2022 size:{df_22.shape}')
 
 
-df_1 = pd.concat([df_18_20, df_21], axis=0)
-df = pd.concat([df_1, df_22], axis=0)
-print(df.head())
-print(df.shape)
+# capitalize all variables in 2022 data and rename BLEEDIS
+df_22.columns = df_22.columns.str.upper()
+df_22 = df_22.rename(columns={'BLEEDDIS':'BLEEDIS'})
+
+# recode ETHNICITY_HISPANIC and OTHBLEED
+m = datasci(df_18_21)
+m.size()
+
+oldVal = ['N', 'U', 'Y']
+newVal = ['No', 'Unknown', 'Yes']
+m.recode('ETHNICITY_HISPANIC',oldVal=oldVal, newVal=newVal,inplace=True)
+print(df_18_21['ETHNICITY_HISPANIC'].value_counts())
+
+oldVal = ['No Complication', 'Transfusions/Intraop/Postop']
+newVal = ['No Complication', 'Blood Transfusion']
+m.recode('OTHBLEED',oldVal=oldVal, newVal=newVal,inplace=True)
+print(df_18_21['OTHBLEED'].value_counts())
+
+#%%
+# compare two files
+#new_col, rmv_col, dif_val = file_compare(df_18_20, df_21)
+new_col, rmv_col, dif_val = file_compare(df_18_21, df_22)
 
 
-df.to_csv('processed_data/CABG_18_22.csv', index=False)
-'''
+# check if flawed columns are in preselect features
+df_preselect = pd.read_csv('preselect_features.csv')
+preselct_features = df_preselect.Name.tolist()
+preselct_features.append('OTHBLEED')
+
+note = [col for col in rmv_col if col in preselct_features]
+check = [col for col in dif_val if col in preselct_features]
+print("Preselect cols removed:",note)
+print("Preselect cols with different values:",check)
+
+# check same variable with different values 
+for col in check:
+    print(col)
+    print('df1:', sorted(df_18_21[col].unique().tolist()))
+    print('df2:', sorted(df_22[col].unique().tolist()))
+
+#%%
+# merge the clean files
+df_18_22 = pd.concat([df_18_21, df_22], axis=0)
+print(df_18_22.head())
+print(df_18_22.shape) # (8587,294)
+
+df_18_22.to_csv('processed_data/2018_2022/CABG_2018_2022.csv', index=False)
+
+
 
 #%%
 '''
@@ -53,118 +99,85 @@ sys.path.append(path)
 print(sys.path )
 
 '''
+
 # Data preprocessing ****************************
 #*****************************************************
 #%%
-'''
+
 import pandas as pd
 import numpy as np
-from datasci import datasci
+from datasci import *
 
 
-df = pd.read_csv('processed_data/CABG_18_22.csv')
+df = pd.read_csv('processed_data/2018_2022/CABG_2018_2022.csv')
 
 print(df.head())
-print(df.shape) # (8587, 303)
+print(df.shape) # (8587, 294)
 
 
 m = datasci(df)
 m.size()
 
+#%%
 # recode -99 as nan
-
 for col in df.columns:
     df[col].replace(-99, np.nan, inplace=True)
 
-
+# remove columns with all nans
 m.remove_all_nan_columns()
 
-
+#%% check missing values
 missing = m.missingReport()
-print(missing) # 165 features with missing values
+print(missing)
 
 
-missing_50up = missing[missing['Percent of Nans']>50]
-
-#Cut down to 129 features after dropping variables with over 50% missing
+#%% dropping variables with over 50% missing and cut down to 129 features
+missing_50up = missing[missing['Percent of Nans'] > 50]
 df.drop(missing_50up.index, axis=1, inplace=True)
-df.shape #(8587, 129)
+df.shape #(85877, 129)
 
-df.to_csv('CABG_129.csv', index=False)
+#%%
+df.to_csv('processed_data/2018_2022/CABG_5yr_129.csv', index=False)
 
-'''
 
-
-#%% Preselect 43 features ******************
+#%% Baseline data with 129 features ******************
 #++++++++++++++++++++++++++++++++++++++++
 import pandas as pd
 import numpy as np
-from datasci import datasci
-from glossary import *
+from datasci import *
 
-glossary('PUFYEAR')
 
-df = pd.read_csv('processed_data/CABG_2018_2020.csv')
-df_preselect = pd.read_csv('preselect_features.csv')
+df = pd.read_csv('processed_data/2018_2022/CABG_5yr_129.csv')
 
 print(df.head())
-print(df.shape) #(4953, 276)
-print(df_preselect.shape) # (43, 2)
+print(df.shape) #(8587, 129)
+
 
 #%%
-preselct_features = df_preselect.Name.tolist()
-df_43 = df[preselct_features]
-df_43['OTHBLEED'] = df['OTHBLEED']
-
-cols = df_43.columns.tolist()
-order = cols[-1:] + cols[:-1]
-df_43 = df_43[order]
-
-print(df_43.head())
-print(df_43.shape)
-
-#%%
-#df_43.to_csv('processed_data/CABG_preselect_original.csv',index=False)
-#df_43.dtypes.to_csv('processed_data/dtype.csv')
-
-#%%
-# recode -99 as nan
-for col in df_43.columns:
-    df_43[col].replace(-99, np.nan, inplace=True)
-
-df_43['PRPT']
-
-#%%
-m = datasci(df_43)
+m = datasci(df)
 m.missingReport()
 
-#%%
-m.remove_all_nan_columns()
-m.missingReport()
+#%% fix DOTHBLEED: replace nan with -1
+df['DOTHBLEED'].fillna(-1, inplace=True)
+print(df['DOTHBLEED'].isnull().sum())
 
-
-#%%
-#check = df_43[df_43.dtypes.sort_values().index]
-#check.to_csv('test.csv',index=False)
-
-#%%
-df_43['AGE'].replace('90+','90', inplace=True)
-df_43['AGE'] = df_43['AGE'].astype(float)
-type(df_43['AGE'][0])
+#%% fix AGE and convert it to numeric
+df['AGE'].replace('90+','90', inplace=True)
+df['AGE'] = df['AGE'].astype(float)
+type(df['AGE'][0])
 
 #%%
-std_cols = df_43.select_dtypes(include=['int64', 'float64']).columns.tolist()
+std_cols = df.select_dtypes(include=['int64', 'float64']).columns.tolist()
 std_cols.remove('PUFYEAR')
 std_cols
-#%% Imputation ***************************
+
+#%% imputation
 m.impute_all()
 
 #%% calculate BMI using weight and height after imputation
-df_43['BMI']= (df_43['WEIGHT']/df_43['HEIGHT']**2) *703
+df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
 std_cols.append('BMI')
-#%%
-df_43['PUFYEAR'] = df_43['PUFYEAR'].astype('int32')
-type(df_43['PUFYEAR'][0])
+
 
 #%%
 # standardize
@@ -172,113 +185,69 @@ m.standardize(col_list=std_cols)
 
 
 #%%
-df_43.drop(['HEIGHT','WEIGHT'],axis=1)
+df = df.drop(['CASEID'], axis=1)
+df.head()
 
 #%%
-df_43.head()
+df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_recode.csv',index=False)
 
+
+#**** Preselct 43 features ****
 #%%
-df_43.to_csv('processed_data/CABG_preselect.csv',index=False)
-
-
-
-
-#%% Whole dataset (119 features, 2840 observations)
 import pandas as pd
-import numpy as np
-from datasci import datasci
+from datasci import *
 
-df = pd.read_csv('CABG_119_2840.csv')
-
-print(df.head())
-print(df.shape)
-
-
-#%% 
-df.isnull().sum()
+df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline_recode.csv')
+df_preselect = pd.read_csv('preselect_features.csv')
+print(df.shape) # (8587, 129)
+print(df_preselect.shape) # (43, 2)
 
 #%%
-df2 = df[df.dtypes.sort_values().index]
+preselect_features = df_preselect.Name.tolist()
+preselect_features.insert(0,'OTHBLEED') # add target
+preselect_features.append('BMI') # add back to preselect
+preselect_features.remove('PRPT') # remove PRPT because it's all null
+df_43 = df[preselect_features]
+
+print(df_43.head())
+print(df_43.shape) # (8587, 44)
+
+
+#%% cut down to 39 features after dropping highly correlated features
+df_40 = df_43.drop(['HEIGHT','WEIGHT','ETHNICITY_HISPANIC'], axis=1)
+df_40.shape
 
 #%%
-idx = df2.columns.get_loc('WNDCLAS')
+df_40.to_csv('processed_data/2018_2022/CABG_5yr_preselect40.csv',index=False)
 
 #%%
-cat_features = df2.columns[idx:].to_list()
-
-
-#%% 20 pre-select features + target + year
-features = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
+#**** Preselct 20 features ****
+preselect_20 = ['OTHBLEED','SEX','RACE_NEW','BMI','INOUT','AGE',
             'ANESTHES','DIABETES','SMOKE','DYSPNEA','FNSTATUS2',
             'HXCOPD','ASCITES','HXCHF','HYPERMED','DIALYSIS',
-            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS','PUFYEAR']
+            'DISCANCR','STEROID','WTLOSS','BLEEDIS','TRANSFUS']
 
-df_20 = df[features]
-
-#%%
-df_20.to_csv('CABG_2018_2020_preselect.csv', index=False)
-
-
-# RECODING (20 FEATURES ONLY) **************************
-# %%
-import pandas as pd
-import numpy as np
-from datasci import datasci
-
-df_20 = pd.read_csv('CABG_2018_2020_preselect.csv')
-
-print(df_20.head())
-m = datasci(df_20)
-m.size()
-
-
-# %% check no missing values
-print(df_20.isnull().sum())
-
-# %% target variable EDA
-print(m.eda('OTHBLEED'))
-
-#%% categorical features
-cat_features = df_20.columns[1:].to_list()
-cat_features.remove('BMI')
-cat_features.remove('AGE')
-print(cat_features)
-
-
-#%% (1) recode categorical features
-m.recode(col_list=cat_features,inplace=True)
-
-
-#%% (2) recode target varible
-m.recode(col_list=['OTHBLEED'],inplace=True)
+df_20 = df[preselect_20]
+df_20.shape #(8587, 21)
 
 #%%
-
-# %% (3) recode continuous variable
-
-# Standarization: AGE & BMI
-df_20['AGE'].replace('90+','90', inplace=True)
-df_20['AGE'] = df_20['AGE'].astype(float)
-type(df_20['AGE'][0])
-
-
-#%%
-df_20['AGE_NEW'] = (df_20['AGE'] - df_20['AGE'].mean())/(df_20['AGE'].std())
-print(df_20['AGE_NEW'])
-
-# %%
-df_20['BMI_NEW'] = (df_20['BMI'] - df_20['BMI'].mean())/(df_20['BMI'].std())
-print(df_20['BMI_NEW'])
-
-# %%
-df_20.to_csv('CABG_20_recoded.csv')
+df_20.to_csv('processed_data/2018_2022/CABG_5yr_preselect20.csv',index=False)
 
 
 # %% feature selection using random forest
-#features = cat_features.append('BMI_NEW')
-#features = features.append('AGE_NEW')
+m = datasci(df_20)
 target = 'OTHBLEED'
-m.featureSelection(cat_features, target)
+features = preselect_20[1:]
+m.featureSelection(features, target)
 
 # %%
+m = datasci(df_40)
+target = 'OTHBLEED'
+features = preselect_20[1:]
+m.featureSelection(features, target)
 
+
+# %%
+df['OPTIME']
+
+# %%
