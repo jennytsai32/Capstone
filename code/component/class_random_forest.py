@@ -29,7 +29,7 @@ class RandomForest:
         self.f_importances = pd.Series(self.importances, self.df.iloc[:, 1:].columns)
 
         # sort the array in descending order of the importances
-        self.f_importances.sort_values(ascending=False, inplace=True)
+        self.f_importances.sort_values(ascending=True, inplace=True)
 
         # select NEW X_train, X_test on k-features
         self.newX_train = self.X_train[:, self.model.feature_importances_.argsort()[::-1][:feature_importances]]

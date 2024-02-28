@@ -190,7 +190,7 @@ def Plot_ROC_Combined(lst):
     plt.legend(loc="lower right")
     plt.show()
 
-def Calc_Plot_VIF(df):
+def Calc_Plot_VIF(df, n):   # n = num of features included
     df_vif = pd.DataFrame()
     df_vif["Features"] = df.columns
     # calculating VIF for each feature
@@ -202,7 +202,8 @@ def Calc_Plot_VIF(df):
     df_vif.sort_values('VIF', ascending=True).plot(y='VIF', x='Features', kind='barh', figsize=(12, 6))
     plt.xlabel('Variance Inflation Factor')
     plt.ylabel('')
-    plt.title('Feature VIF')
+    plt.title(f'Feature VIF, features = {n}')
+    plt.legend(loc='lower right')
     for index, value in enumerate(df_vif['VIF'].sort_values().round(1)):
         plt.text(value, index, str(value), ha='left', va='center')
     plt.show()
@@ -218,7 +219,7 @@ def Calc_Top_Corr(df, n):    # n = # of top corr pair
     return df_sorted_corr.head(n)
 
 
-def Plot_Heatmap_Top_Corr(df, n, x, y, title):    #  n = corr coef threshold
+def Plot_Heatmap_Top_Corr(df, n, title):    #  n = corr coef threshold
     df_corr = df.corr()
     df_filtered = df_corr[((df_corr >= n) | (df_corr <= -n)) & (df_corr != 1)]
     plt.figure(figsize=(12, 8))
@@ -229,11 +230,12 @@ def Plot_Heatmap_Top_Corr(df, n, x, y, title):    #  n = corr coef threshold
                            'ha': 'center',
                            # "bbox": {"facecolor": "yellow", "edgecolor": "black", "boxstyle": "round,pad=0.5"}   set background color
                            })
+    plt.title(title)
     plt.show()
 
 def Plot_Feature_Importances(df_f_importances):
-    df_f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), rot=90, fontsize=15)
-    plt.ylabel('Feature Importances')
+    df_f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=15)
+    plt.xlabel('Feature Importances')
     plt.title('Feature Importances - Random Forest')
     plt.tight_layout()
     plt.show()

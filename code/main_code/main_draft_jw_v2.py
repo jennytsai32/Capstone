@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
 import os
+import warnings
+warnings.filterwarnings("ignore")
 
 # import the baseline models class
 # get py file folder path
@@ -38,10 +40,30 @@ pd.set_option('display.max_columns', 15)
 # ==============================================================================
 
 # skipping Step 1 data preprocessing - import clean data here below
-df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
-# df = df.drop(['PUFYEAR'], axis=1)
+# df=pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_preselect.csv')
+df_baseline_2018_2022 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/Jenny/processed_data/2018_2022/CABG_5yr_baseline.csv')
+df_baseline_2018_2020 = df_baseline_2018_2022[(df_baseline_2018_2022['PUFYEAR']==2018) | (df_baseline_2018_2022['PUFYEAR']==2019) | (df_baseline_2018_2022['PUFYEAR']==2020)]
 
+
+df_5yr_preselect40 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/10937f26fe011d25038340276e3ba2534b3ab566/code/main_code/processed_data/2018_2022/CABG_5yr_preselect40.csv')
+
+# # 43 features df
+# lst = df_5yr_preselect40.columns.to_list() + ['HEIGHT','WEIGHT','ETHNICITY_HISPANIC' ]
+# df_5yr_preselect43 = df_baseline_2018_2022[lst]
+# features43 = df_5yr_preselect43.drop(['PUFYEAR'], axis=1)
+# Calc_Plot_VIF(features43, 43)
+# Calc_Top_Corr(features43, 20)
+# # df = df.drop(['PUFYEAR'], axis=1)
+
+# feature 20 using feature importances from random forest
+lst = model_rf.f_importances[-20:].index.to_list() + ['OTHBLEED']
+df_5yr_preselect20 = df_5yr_preselect40[lst]
+
+# Jenny's AutoFeat
+df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_autofeat_data.csv')
+df['OTHBLEED'] =
 # set cross-cutting variables
+df = df
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
@@ -262,7 +284,7 @@ combined_results_table = pd.concat([results_dt_gini,
                                     results_log,
                                     results_gb,
                                     results_xgb,
-                                    results_knn
+                                    results_knn,
                                     results_rf])
 combined_results_table
 
@@ -294,10 +316,20 @@ Plot_ROC_Combined(lst)
 # sys.path.append(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\component')
 #
 # import pandas as pd
-from class_pca import PCA_for_Feature_Selection
-#
-# df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
 
+# 1. VIF check
+features40 = df_5yr_preselect40.drop(['PUFYEAR'], axis=1)
+Calc_Plot_VIF(features40, 40)
+Calc_Top_Corr(features40, 20)
+Plot_Heatmap_Top_Corr(features40, .5, 'Top Correlation Feature Pairs - Threshold = 0.5')
+
+
+# 2. check feature importances from random forest
+
+# 3. PCA
+from class_pca import PCA_for_Feature_Selection
+
+df = df_5yr_preselect20
 
 # import PCA class
 pca_module = PCA_for_Feature_Selection(df, 'OTHBLEED')
@@ -314,36 +346,14 @@ df_new = pca_module.PCA_New_df()
 
 # add the target back
 print(df_new.shape)
+# adding original target value back to df_new
 df_new['OTHBLEED'] = df['OTHBLEED'].values
 
 # =============================
 # display new results after PAC
 # =============================
 
-# first, build all the models
-model_decision_tree_new = DecisionTree(df_new,'OTHBLEED',0.3,100, 5,'gini', 3, 5)
-model_decision_tree2_new = DecisionTree(df_new,'OTHBLEED',0.3,100, 5,'entropy', 3, 5)
-model_svm_new = SVM(df_new,'OTHBLEED',0.3,100, 5,'linear',1.0,'auto')
-model_svm2_new = SVM(df_new,'OTHBLEED',0.3,100, 5,'rbf',1.0,0.2)
-model_log_new = LogReg(df_new,'OTHBLEED',0.3,100, 5)
-model_gb_new = GradientBoosting(df_new,'OTHBLEED',0.3,100, 5,300, 0.05)
-model_xgb_new = XGB(df_new,'OTHBLEED',0.3,100, 5,100, 0.3)
-model_nb_new = NaiveBayesGaussianNB(df_new,'OTHBLEED',0.3,100, 5)
-model_rf_new = RandomForest(df_new,'OTHBLEED',0.3,100, 5, 100, 20)
 
-# get all the result metrics
-a2=model_decision_tree_new.Display_Model_Results()
-b2=model_decision_tree2_new.Display_Model_Results()
-c2=model_svm_new.Display_Model_Results()
-d2=model_svm2_new.Display_Model_Results()
-e2=model_nb_new.Display_Model_Results()
-f2=model_log_new.Display_Model_Results()
-g2=model_gb_new.Display_Model_Results()
-h2=model_xgb_new.Display_Model_Results()
-i2=model_rf_new.Display_Model_Results()
-
-# display results comparison
-print(Combined_Results_Table([a2,b2,c2,d2,e2,f2,g2,h2,i2]))
 
 # =====================================
 # STEP4. AutoML - TPOT               ||
@@ -351,6 +361,7 @@ print(Combined_Results_Table([a2,b2,c2,d2,e2,f2,g2,h2,i2]))
 from class_tpot import TPOT
 # initiate the model
 # 0.25 on test size, random_state = 100, generations=5, population_size=20, verbosity=2
+df = df_5yr_preselect40
 model_tpot = TPOT(df, target, test_size, random_state, 5, 20, 2)
 model_tpot.scores
 
