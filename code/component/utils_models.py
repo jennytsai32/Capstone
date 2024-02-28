@@ -1,76 +1,101 @@
-# This utilities include needed functions to check model results
-# Functions included:
-# 1. Predict()
-# 2. Report()
-# 3. Accuracy()
-# 4. RMSE()
-# 5. Confusion_Matrix()
-# 6. Confusion_Matrix_Plot()
-# 7. ROC_AUC_Score()
-# 8. ROC_AUC_Plot()
-# 9. Combined_ROC_Plot()
-# 10. Single_Model_Results()
-# 11. Combined_Model_Results()
-# 12. Decision_Tree_Plot()
+
+# =============================================================================
+# This utilities.py includes needed functions to check model results
+# =============================================================================
+
+# 1. Model_Predict()
+# 2. Model_Report()
+# 3. Model_Accuracy()
+# 4. Model_RMSE()
+# 5. Model_F1()
+# 6. Model_Confusion_Matrix()
+# 7. Plot_Confusion_Matrix()
+# 8. Plot_Decision_Tree()
+# 9. Model_ROC_AUC_Score()
+# 10. Plot_ROC_AUC()
+# 11. Plot_Random_ForFeature_Importances
+# 12. Model_Results_Table()
+# 13. Plot_ROC_Combined()
+
+# 14. Calc_Plot_VIF()
+# 15. Calc_Top_Corr()
+# 16. Plot_Heatmap_Top_Corr
+
+
 
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn import tree
-from sklearn.model_selection import cross_val_score, KFold
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, root_mean_squared_error, f1_score
-from sklearn.svm import SVC
-from sklearn.linear_model import LogisticRegression
-import xgboost as xgb
-from xgboost import XGBClassifier
-
+import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+from sklearn.model_selection import cross_val_score, KFold
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report, roc_curve, roc_auc_score, mean_squared_error, f1_score
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from sklearn import tree
 
-def Predict(target, model_name,y_pred):
+# from sklearn.svm import SVC
+# from sklearn.linear_model import LogisticRegression
+# import xgboost as xgb
+# from xgboost import XGBClassifier
+# from sklearn.tree import DecisionTreeClassifier
+# from sklearn.model_selection import train_test_split
+
+def Model_Predict(target, model_name, model, X_test):
     # display results
+    y_pred = model.predict(X_test)
+    print('-' * 80)
     print('Target: ', target)
     print('Model: ', model_name)
     print(f'Y-test prediction: {y_pred}')
+    return y_pred
+
+def Model_Report(target, model_name, y_test, y_pred):
     print('-' * 80)
-
-
-def Report(target, model_name, y_test, y_pred):
     print('Target: ', target)
     print('Model: ', model_name)
-    print('Report: ' + '\n',
-          classification_report(y_test, y_pred))
-    print('-' * 80)
+    report = classification_report(y_test, y_pred)
+    print('Report:\n', report)
 
-
-def Accuracy(target, model_name, k_folds, random_state, model, X, y):
+def Model_Accuracy(target, model_name, k_folds, random_state, model, X, y):
     # perform cross validation
+    print('-' * 80)
     kf = KFold(n_splits=k_folds, shuffle=True, random_state=random_state)
     scores = cross_val_score(model, X, y, cv=kf)
     mean_accuracy = scores.mean() * 100
     print('Target: ', target)
     print('Model: ', model_name)
     print(f'Model Accuracy (mean of {k_folds} folds): {mean_accuracy}')
+    return mean_accuracy
+
+def Model_RMSE(target, model_name, y_test, y_pred):
     print('-' * 80)
-
-
-def RMSE(target, model_name, y_test, y_pred):
-    rmse = root_mean_squared_error(y_test, y_pred)
+    rmse = mean_squared_error(y_test, y_pred, squared=False)
     print('Target: ', target)
     print('Model: ', model_name)
     print(f'RMSE: {rmse: .3f}')
     print('-' * 80)
+    return rmse
 
-
-def Confusion_Matrix(target, model_name, y_test, y_pred):
+def Model_F1(target, model_name, y_test, y_pred):
+    print('-' * 80)
     print('Target: ', target)
     print('Model: ', model_name)
-    print('Confusion Matrix: ' + '\n', confusion_matrix(y_test, y_pred))
+    # report = classification_report(y_test, y_pred)
+    # f1 = report['macro avg']['f1-score']
+    f1 = f1_score(y_test, y_pred, average='macro')
+    print(f'F-1 score: {f1: .3f}')
+    return f1
+
+def Model_Confusion_Matrix(target, model_name, y_test, y_pred):
     print('-' * 80)
+    print('Target: ', target)
+    print('Model: ', model_name)
+    conf_matrix = confusion_matrix(y_test, y_pred)
+    print('Confusion Matrix: ' + '\n', conf_matrix)
+    return conf_matrix
 
-
-def Confusion_Matrix_Plot(target, model_name, y_test, y_pred, class_name):
+def Plot_Confusion_Matrix(target, model_name, y_test, y_pred, class_names):
+    print('-' * 80)
     print('Plot confusion matrix: ')
     print('Target: ', target)
     print('Model: ', model_name)
@@ -89,8 +114,9 @@ def Confusion_Matrix_Plot(target, model_name, y_test, y_pred, class_name):
     plt.tight_layout()
     plt.show()
 
-def Decision_Tree_Plot(target, model_name, model, feature_names):
+def Plot_Decision_Tree(target, model_name, model, feature_names):
     # plot the tree
+    print('-' * 80)
     print('Target: ', target)
     print('Model: ', model_name)
     print('Plot the decision tree: ')
@@ -99,31 +125,30 @@ def Decision_Tree_Plot(target, model_name, model, feature_names):
                    rounded=True, fontsize=14)
     plt.show()
 
-
-def ROC_AUC_Score(target, model_name, model, X_test, y_test):
+def Model_ROC_AUC_Score(target, model_name, model, X_test, y_test):
+    print('-' * 80)
     print('Target: ', target)
     print('Model: ', model_name)
     y_pred_proba = model.predict_proba(X_test)[:, 1]
     auc = roc_auc_score(y_test, y_pred_proba)
     print(f'ROC-AUC score: {auc:.3f}')
-    print('-' * 80)
+    return auc
 
-
-def ROC_AUC_Plot(target, model_name, model, X_test, y_test):
+def Plot_ROC_AUC(target, model_name, model, X_test, y_test):
     # Plot ROC Area Under Curve
     print('Target: ', target)
     print('Model: ', model_name)
     print('Plot ROC Aarea Under Curve: ')
 
     y_pred_proba = model.predict_proba(X_test)[:, 1]
-    fpr, tpr, _ = metrics.roc_curve(y_test, y_pred_proba)
+    fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
     auc = roc_auc_score(y_test, y_pred_proba)
 
     plt.figure(figsize=(10, 10))
     lw = 2
     plt.plot(fpr, tpr, color='darkorange',
              lw=lw, label='AUC=' + str(auc))
-    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')
+    plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--', label=f'AUC-{target}: {auc:.3f}')
     plt.xlim([0.0, 1.0])
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
@@ -131,39 +156,27 @@ def ROC_AUC_Plot(target, model_name, model, X_test, y_test):
     plt.title('Receiver Operating Characteristic (ROC) Plot')
     plt.legend(loc="lower right")
     plt.show()
+    return fpr, tpr, auc, model_name
 
-def Single_Model_Results(target, parameters, model_name, model, random_state, k_folds, X, y, y_test, y_pred):
-    report = classification_report(y_test, y_pred, output_dict=True)
-
-    kf = KFold(n_splits=k_folds, shuffle=True, random_state=random_state)
-    scores = cross_val_score(model, X, y, cv=kf)
-    mean_accuracy = scores.mean() * 100
-    rmse = root_mean_squared_error(y_test, y_pred)
-
-    f1 = report['macro avg']['f1-score']
-
-    # ROC-AUC
-    y_pred_proba = self.model.predict_proba(X_test)[:, 1]
-    fpr, tpr, _ = metrics.roc_curve(y_test, y_pred_proba)
-    auc = roc_auc_score(y_test, y_pred_proba)
+def Model_Results_Table(model_name_lst, parameters_lst, target, test_size, accuracy_lst, k_folds, rmse_lst, f1_lst, auc_lst):
 
     # construct the table
-    dict = {'Model Name': model_name,
-            'Parameters': parameters,
-            'Target': target,
-            'Mean Accuracy (' + str(self.k_folds) + ' folds)': mean_accuracy,
-            'RMSE': rmse,
-            'F1-score': f1,
-            'ROC-AUC score': auc}
+    dict = {'Model Name': model_name_lst,
+            'Parameters': parameters_lst,
+            'Mean Accuracy (' + str(k_folds) + ' folds)': accuracy_lst,
+            'RMSE': rmse_lst,
+            'F1-score (macro avg)': f1_lst,
+            'ROC-AUC score': auc_lst}
     results_table = pd.DataFrame([dict])
+    # insert a column of target
+    results_table.insert(2, 'Target','')
+    results_table.insert(3, 'Test Size','')
+    results_table['Target'] = target
+    results_table['Test Size'] = test_size
     return results_table
 
-def Combined_Results_Table(lst_df):
-    results_table = pd.concat(lst_df, ignore_index=True)
-    return results_table
-
-def Combined_ROC_Plot(lst):
-    plt.figure(figsize=(10, 10))
+def Plot_ROC_Combined(lst):
+    plt.figure(figsize=(12, 12))
 
     for i in range(len(lst)):
         plt.plot(lst[i][0], lst[i][1], lw=2, label=f'AUC-{lst[i][3]}={lst[i][2]:.3f}')
@@ -173,6 +186,54 @@ def Combined_ROC_Plot(lst):
     plt.ylim([0.0, 1.05])
     plt.xlabel('False Positive Rate')
     plt.ylabel('True Positive Rate')
-    plt.title('Receiver Operating Characteristic (ROC) Plot')
+    plt.title('Receiver Operating Characteristic (ROC) Plot - Comparison')
     plt.legend(loc="lower right")
+    plt.show()
+
+def Calc_Plot_VIF(df):
+    df_vif = pd.DataFrame()
+    df_vif["Features"] = df.columns
+    # calculating VIF for each feature
+    df_vif["VIF"] = [variance_inflation_factor(df.values, i)
+                       for i in range(len(df.columns))]
+    df_vif = df_vif.sort_values('VIF', ascending=False)
+
+    # plot
+    df_vif.sort_values('VIF', ascending=True).plot(y='VIF', x='Features', kind='barh', figsize=(12, 6))
+    plt.xlabel('Variance Inflation Factor')
+    plt.ylabel('')
+    plt.title('Feature VIF')
+    for index, value in enumerate(df_vif['VIF'].sort_values().round(1)):
+        plt.text(value, index, str(value), ha='left', va='center')
+    plt.show()
+
+    return df_vif
+
+def Calc_Top_Corr(df, n):    # n = # of top corr pair
+    corr_matrix = df.corr()
+    df_corr = (corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack().sort_values(ascending=False))
+    df_corr = pd.DataFrame(df_corr).reset_index()
+    df_corr.columns=['Variable_1','Variable_2','Correlacion']
+    df_sorted_corr = df_corr.reindex(df_corr.Correlacion.abs().sort_values(ascending=False).index).reset_index().drop(['index'],axis=1)
+    return df_sorted_corr.head(n)
+
+
+def Plot_Heatmap_Top_Corr(df, n, x, y, title):    #  n = corr coef threshold
+    df_corr = df.corr()
+    df_filtered = df_corr[((df_corr >= n) | (df_corr <= -n)) & (df_corr != 1)]
+    plt.figure(figsize=(12, 8))
+
+    sns.heatmap(df_filtered,
+                annot=True, cmap='Reds', vmin=0, vmax=1, fmt='.1f',
+                annot_kws={'color': 'yellow',
+                           'ha': 'center',
+                           # "bbox": {"facecolor": "yellow", "edgecolor": "black", "boxstyle": "round,pad=0.5"}   set background color
+                           })
+    plt.show()
+
+def Plot_Feature_Importances(df_f_importances):
+    df_f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), rot=90, fontsize=15)
+    plt.ylabel('Feature Importances')
+    plt.title('Feature Importances - Random Forest')
+    plt.tight_layout()
     plt.show()

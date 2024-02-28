@@ -10,13 +10,20 @@ import os
 # get py file folder path
 sys.path.append(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\component')
 
-from class_baseline_decision_tree import DecisionTree
-from class_baseline_svm import SVM
-from class_baseline_logistic import LogReg
-from class_baseline_gradient_boosting import GradientBoosting
-from class_baseline_xgboost import XGB
-from class_baseline_gaussian_nb import NaiveBayesGaussianNB
-from class_baseline_random_forest import RandomForest
+from class_decision_tree import DecisionTree
+from class_svm import SVM
+from class_logistic import LogReg
+from class_gradient_boosting import GradientBoosting
+from class_xgboost import XGB
+from class_gaussian_nb import NaiveBayesGaussianNB
+from class_random_forest import RandomForest
+
+
+
+df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
+df_features = df.drop(['OTHBLEED'], axis=1)
+
+from class_decision_tree import DecisionTree
 
 # import utilities
 from utils_models import *
@@ -60,7 +67,7 @@ standardize(df)
 
 # skipping Step 1 data preprocessing - import clean data here below
 df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
-df = df.drop(['PUFYEAR','AGE','BMI'], axis=1)
+# df = df.drop(['PUFYEAR'], axis=1)
 
 #===============================================
 # Model 1: call Decision Tree model class
@@ -156,9 +163,10 @@ model_nb.ROC_AUC_Plot()
 # Model 9: call RandomForest model class
 #===============================================
 # initiate the model
-# 0.3 on test size; random_state = 100; k_folds = 5, n_estimators=100, feature_importances = 10
-model_rf = RandomForest(df,'OTHBLEED',0.3,100, 5, 100, 10)
+# 0.3 on test size; random_state = 100; k_folds = 5, n_estimators=100, feature_importances = 20
+model_rf = RandomForest(df,'OTHBLEED',0.3,100, 5, 100, 40)
 print(model_rf.Display_Model_Results())
+model_rf.Random_Forest_Feature_Importances_Plot()
 model_rf.ROC_AUC_Score()
 model_rf.ROC_AUC_Plot()
 
@@ -176,7 +184,7 @@ model_log = LogReg(df,'OTHBLEED',0.3,100, 5)
 model_gb = GradientBoosting(df,'OTHBLEED',0.3,100, 5,300, 0.05)
 model_xgb = XGB(df,'OTHBLEED',0.3,100, 5,100, 0.3)
 model_nb = NaiveBayesGaussianNB(df,'OTHBLEED',0.3,100, 5)
-model_rf = RandomForest(df,'OTHBLEED',0.3,100, 5, 100, 10)
+model_rf = RandomForest(df,'OTHBLEED',0.3,100, 5, 100, 20)
 
 # get all the result metrics
 a=model_decision_tree.Display_Model_Results()
@@ -212,16 +220,16 @@ Combined_ROC_Plot(lst)
 # =====================================
 # STEP3. Feature Selection           ||
 # =====================================
-import sys
-# import the baseline models class
-# get py file folder path
-sys.path.append(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\component')
-
-import pandas as pd
+# import sys
+# # import the baseline models class
+# # get py file folder path
+# sys.path.append(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\component')
+#
+# import pandas as pd
 from class_pca import PCA_for_Feature_Selection
+#
+# df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
 
-df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\CABG_preselect.csv')
-df = df.drop(['PUFYEAR','AGE','BMI'], axis=1)
 
 # import PCA class
 pca_module = PCA_for_Feature_Selection(df, 'OTHBLEED')
@@ -241,7 +249,7 @@ print(df_new.shape)
 df_new['OTHBLEED'] = df['OTHBLEED'].values
 
 # =============================
-# display new results
+# display new results after PAC
 # =============================
 
 # first, build all the models
@@ -253,7 +261,7 @@ model_log_new = LogReg(df_new,'OTHBLEED',0.3,100, 5)
 model_gb_new = GradientBoosting(df_new,'OTHBLEED',0.3,100, 5,300, 0.05)
 model_xgb_new = XGB(df_new,'OTHBLEED',0.3,100, 5,100, 0.3)
 model_nb_new = NaiveBayesGaussianNB(df_new,'OTHBLEED',0.3,100, 5)
-model_rf_new = RandomForest(df_new,'OTHBLEED',0.3,100, 5, 100, 10)
+model_rf_new = RandomForest(df_new,'OTHBLEED',0.3,100, 5, 100, 20)
 
 # get all the result metrics
 a2=model_decision_tree_new.Display_Model_Results()
