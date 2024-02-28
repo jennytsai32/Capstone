@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import LabelEncoder
 
 
 class datasci():
@@ -211,8 +212,116 @@ class datasci():
         plt.tight_layout()
         plt.show()
 
-    def standardize(self):
-        pass
+    def standardize(self, col_list):
+        '''
+        standardize a list of columns
+        '''
+        for col in col_list:
+            self.df[col] = (self.df[col] - self.df[col].mean())/(self.df[col].std())
+
+    # code obtained from Prof. Amir Jafari
+    def remove_all_nan_columns(self):
+        """
+        Remove columns with all NaN values from a DataFrame
+        """
+        # Get columns with all NaNs
+        all_nan_cols = [col for col in self.df.columns if self.df[col].isnull().all()]
+
+        # Drop columns with all NaNs
+        self.df.drop(all_nan_cols, axis=1, inplace=True)
+    
+    # code modified from Prof. Amir Jafari
+    def impute_all(self, num_strategy ='mean', bool_strategy='most_frequent'):
+        '''
+        impute the all dataframe based on the column type.
+        :: num_strategy: imputation strategy for numeric variables, including 'mean', 'median', 'mode', 'max'
+        :: bool_strategy: imputation strategy for booleans, including 'most_frequent', 'all_true', 'all_false'
+        '''
+
+        # (1) impute numeric features:
+        numeric_cols = self.df.select_dtypes(include=['int8', 'int16', 'int32', 'int64', 'float16', 'float32', 'float64']).columns
+
+        for col in numeric_cols:
+            if num_strategy == 'mean':
+                self.df[col].fillna(self.df[col].mean(), inplace=True)
+            elif num_strategy == 'median':
+                self.df[col].fillna(self.df[col].median(), inplace=True)
+            elif num_strategy == 'mode':
+                self.df[col].fillna((self.df[col].mode()), inplace=True)
+            elif num_strategy == 'max':
+                self.df[col].fillna(self.df[col].max(), inplace=True)
+            else:
+                print('Invalid imputation strategy. Using mean instead.')
+                self.df[col].fillna(self.df[col].mean(), inplace=True)
+
+
+        # (2) impute boolean features:
+        bool_cols = []
+
+        for col in self.df.columns:
+            uniques = self.df[col].unique()
+            has_nan = pd.isna(uniques).any()
+
+            if has_nan:
+                # Make sure NaN itself is not considered unique
+                uniques = uniques[~pd.isna(uniques)]
+
+            # Check 0s and 1s or Trues and Falses
+            if set(uniques) <= {0, 1} or set(uniques) <= {True, False} or set(uniques) <= {'Yes', 'No'}:
+                bool_cols.append(col)
+
+        for col in bool_cols:
+
+            if bool_strategy == 'most_frequent':
+                most_freq = self.df[col].mode()[0]
+                self.df[col].fillna(most_freq, inplace=True)
+
+            elif bool_strategy == 'all_true':
+                self.df[col] = self.df[col].astype(bool)
+                self.df[col].fillna(True, inplace=True)
+
+            elif bool_strategy == 'all_false':
+                self.df[col] = self.df[col].astype(bool)
+                self.df[col].fillna(False, inplace=True)
+
+            else:
+                print('Invalid strategy. Using most frequent.')
+                most_freq = self.df[col].mode()[0]
+                self.df[col].fillna(most_freq, inplace=True)
+
+        # (3) impute categorical features:
+                
+        # Identify object/category columns
+        object_cols = self.df.select_dtypes(include=['object', 'category'])
+        MAP = []
+        # Iterate through each object column
+        for col in object_cols:
+            # Check if there are NaN values
+            if self.df[col].isnull().values.any():
+                # Encode column as numeric with label encoder
+                le = LabelEncoder()
+                self.df[col] = self.df[col].astype(str)
+                self.df[col] = le.fit_transform(self.df[col])
+
+                # Get the max category label
+                max_label = self.df[col].max()
+
+                # Set NaN values to max + 1
+                self.df[col] = self.df[col].fillna(max_label + 1)
+                mappings = dict(zip(le.transform(le.classes_), le.classes_))
+                MAP.append((col, mappings))
+            else:
+                le = LabelEncoder()
+                self.df[col] = self.df[col].astype(str)
+                self.df[col] = le.fit_transform(self.df[col])
+                mappings = dict(zip(le.transform(le.classes_), le.classes_))
+                MAP.append((col, mappings))
+
+        return self.df, MAP
+
+
+
+        
 
 
 

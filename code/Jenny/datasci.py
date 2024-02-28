@@ -1,7 +1,3 @@
-# CS Foundations Final Project
-# Team #8
-# Jenny Tsai & Jiazu Zhang
-
 
 # %%
 import numpy as np
@@ -122,27 +118,23 @@ class datasci():
 
 
 
-    def recode(self, col_list, inplace=False):
+    def recode(self, col, oldVal, newVal, inplace=False):
         '''
         recode the variable by replacing a list of old values with new values.
         :: col_list: list of column name whose values to be recoded.
         :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
         '''
+        new_name = str(col) + '_NEW'
 
-        for col in col_list:
-            oldVal = sorted(self.df[col].unique().tolist())
-            newVal = list(range(0,len(oldVal)))
-            new_name = str(col) + '_NEW'
+        #res = {test_keys[i]: test_values[i] for i in range(len(test_keys))}
 
-            #res = {test_keys[i]: test_values[i] for i in range(len(test_keys))}
-
-            if inplace == True:
-                self.df[col].replace(oldVal, newVal, inplace=True)
-                #return self.df[col].value_counts()
-            
-            else:
-                self.df[new_name] = self.df[col].replace(oldVal, newVal)
-                #return self.df[new_name].value_counts()
+        if inplace == True:
+            self.df[col].replace(oldVal, newVal, inplace=True)
+            #return self.df[col].value_counts()
+        
+        else:
+            self.df[new_name] = self.df[col].replace(oldVal, newVal)
+            #return self.df[new_name].value_counts()
         
 
     def eda(self, column, insight=False):
@@ -320,7 +312,57 @@ class datasci():
         return self.df, MAP
 
 
+# **********************************
+# Functions:
+       
+def file_compare(df1, df2):
+    # find new columns in df2
+    new_col = []
+    for col in df2.columns:
+        if col not in df1.columns:
+            new_col.append(col)
+    print("New columns:", new_col)
 
+    # find old columns removed in df2
+    rmv_col = []
+    for col in df1.columns:
+        if col not in df2.columns:
+            rmv_col.append(col)
+    print("Removed columns:", rmv_col)
+
+    # find columns with the same name but different values
+    dif_val = []
+    obj_cols_df1 = df1.select_dtypes(include=['object', 'category'])
+    obj_cols_df2 = df2.select_dtypes(include=['object', 'category'])
+    common_cols = [x for x in obj_cols_df1 if x in obj_cols_df2]
+    
+    for col in common_cols:
+        df1_unique = df1[col][~pd.isna(df1[col])].unique()
+        df2_unique = df2[col][~pd.isna(df2[col])].unique()
+
+        df1_unique = sorted([str(element) for element in df1_unique])
+        df2_unique = sorted([str(element) for element in df2_unique])
+
+        #df1_unique = df1[col].unique()
+        #df2_unique = df2[col].unique()
+        
+        if len(df1_unique) != len(df2_unique):
+            dif_val.append(col)
+
+        else:
+            result = all(x == y for x, y in zip(df1_unique, df2_unique))
+            if result == False:
+                dif_val.append(col)
+            
+    print('Same name different values:', dif_val)
+
+    return new_col, rmv_col, dif_val
+
+    
+
+def glossary(key):
+    content = {'PUFYEAR': 'Year of PUF', 'SEX': 'Gender', 'RACE_NEW': 'New Race', 'ETHNICITY_HISPANIC': 'Ethnicity Hispanic', 'INOUT': 'Inpatient/outpatient', 'AGE': 'Age of patient with patients over 89 coded as 90+', 'ANESTHES': 'Principal anesthesia technique', 'HEIGHT': 'Height in inches', 'WEIGHT': 'Weight in lbs', 'DIABETES': 'Diabetes mellitus with oral agents or insulin', 'SMOKE': 'Current smoker within one year', 'DYSPNEA': 'Dyspnea', 'FNSTATUS2': 'Functional health status Prior to Surgery', 'VENTILAT': 'Ventilator dependent', 'HXCOPD': 'History of severe COPD', 'ASCITES': 'Ascites', 'HXCHF': 'Heart failure (CHF) in 30 days before surgery', 'HYPERMED': 'Hypertension requiring medication', 'RENAFAIL': 'Acute renal failure (pre-op)', 'DIALYSIS': 'Currently on dialysis (pre-op)', 'DISCANCR': 'Disseminated cancer', 'WNDINF': 'Open wound/wound infection', 'STEROID': 'Immunosuppressive Therapy', 'WTLOSS': 'Malnourishment', 'BLEEDIS': 'Bleeding disorder', 'TRANSFUS': 'Preop Transfusion of >= 1 unit of whole/packed RBCs in 72 hours prior to surgery', 'PRSODM': 'Pre-operative serum sodium', 'PRBUN': 'Pre-operative BUN', 'PRCREAT': 'Pre-operative serum creatinine', 'PRALBUM': 'Pre-operative serum albumin', 'PRBILI': 'Pre-operative total bilirubin', 'PRSGOT': 'Pre-operative SGOT', 'PRALKPH': 'Pre-operative alkaline phosphatase', 'PRWBC': 'Pre-operative WBC', 'PRHCT': 'Pre-operative hematocrit', 'PRPLATE': 'Pre-operative platelet count', 'PRPTT': 'Pre-operative PTT', 'PRINR': 'Pre-operative International Normalized Ratio (INR) of PT values', 'PRPT': 'Pre-operative PT', 'EMERGNCY': 'Emergency case', 'ASACLAS': 'ASA classification', 'OPTIME': 'Total operation time', 'TOTHLOS': 'Length of total hospital stay'}
+    print(content[key])
         
 
 
