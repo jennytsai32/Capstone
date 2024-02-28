@@ -121,14 +121,16 @@ m.size()
 #%%
 # recode -99 as nan
 for col in df.columns:
-    df[col].replace(-99, np.nan, inplace=True)
+    df[col] = df[col].replace([-99,'-99'], np.nan)
 
+#df['DPRPT']
+#%%
 # remove columns with all nans
 m.remove_all_nan_columns()
 
 #%% check missing values
 missing = m.missingReport()
-print(missing)
+print(missing) # 150 columns with missing values
 
 
 #%% dropping variables with over 50% missing and cut down to 129 features
@@ -155,7 +157,8 @@ print(df.shape) #(8587, 129)
 
 #%%
 m = datasci(df)
-m.missingReport()
+m.missingReport() # 48 columns with missing less than 50%
+
 
 #%% fix DOTHBLEED: replace nan with -1
 df['DOTHBLEED'].fillna(-1, inplace=True)
@@ -176,11 +179,11 @@ m.impute_all()
 
 #%% calculate BMI using weight and height after imputation
 df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
-std_cols.append('BMI')
 
 
 #%%
 # standardize
+std_cols.append('BMI')
 m.standardize(col_list=std_cols)
 
 
@@ -189,7 +192,9 @@ df = df.drop(['CASEID'], axis=1)
 df.head()
 
 #%%
-df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_recode.csv',index=False)
+
+#df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_std.csv',index=False)
+df.to_csv('processed_data/2018_2022/CABG_5yr_baseline.csv',index=False)
 
 
 #**** Preselct 43 features ****
@@ -197,7 +202,7 @@ df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_recode.csv',index=False)
 import pandas as pd
 from datasci import *
 
-df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline_recode.csv')
+df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline_std.csv')
 df_preselect = pd.read_csv('preselect_features.csv')
 print(df.shape) # (8587, 129)
 print(df_preselect.shape) # (43, 2)
