@@ -1,0 +1,173 @@
+﻿Name,Definition
+PUFYEAR,Year of PUF
+SEX,Gender
+RACE_NEW,New Race
+ETHNICITY_HISPANIC,Ethnicity Hispanic
+CPT,CPT
+INOUT,Inpatient/outpatient
+AGE,Age of patient with patients over 89 coded as 90+
+ANESTHES,Principal anesthesia technique
+ELECTSURG,Elective Surgery (this variable name changes with 2021/2022)
+HEIGHT,Height in inches
+WEIGHT,Weight in lbs
+DIABETES,Diabetes mellitus with oral agents or insulin
+SMOKE,Current smoker within one year
+DYSPNEA,Dyspnea
+FNSTATUS2,Functional health status Prior to Surgery
+VENTILAT,Ventilator dependent
+HXCOPD,History of severe COPD
+ASCITES,Ascites
+HXCHF,Heart failure (CHF) in 30 days before surgery
+HYPERMED,Hypertension requiring medication
+RENAFAIL,Acute renal failure (pre-op)
+DIALYSIS,Currently on dialysis (pre-op)
+DISCANCR,Disseminated cancer
+WNDINF,Open wound/wound infection
+STEROID,Immunosuppressive Therapy
+WTLOSS,Malnourishment
+BLEEDIS,Bleeding disorder
+TRANSFUS,Preop Transfusion of >= 1 unit of whole/packed RBCs in 72 hours prior to surgery
+PRSODM,Pre-operative serum sodium
+PRBUN,Pre-operative BUN
+PRCREAT,Pre-operative serum creatinine
+PRALBUM,Pre-operative serum albumin
+PRBILI,Pre-operative total bilirubin
+PRSGOT,Pre-operative SGOT
+PRALKPH,Pre-operative alkaline phosphatase
+PRWBC,Pre-operative WBC
+PRHCT,Pre-operative hematocrit
+PRPLATE,Pre-operative platelet count
+PRPTT,Pre-operative PTT
+PRINR,Pre-operative International Normalized Ratio (INR) of PT values
+PRPT,Pre-operative PT
+EMERGNCY,Emergency case
+ASACLAS,ASA classification
+OPTIME,Total operation time
+TOTHLOS,Length of total hospital stay
+CASEID,Case Identification Number
+PRNCPTX,Principal operative procedure CPT code description
+WORKRVU,Work Relative Value Unit
+TRANST,Transfer status
+ADMYR,Year of Admission
+OPERYR,Year of Operation
+SURGSPEC,Surgical Specialty
+DPRNA,Days from Na Preoperative Labs to Operation
+DPRBUN,Days from BUN Preoperative Labs to Operation
+DPRCREAT,Days from Creatinine Preoperative Labs to Operation
+DPRALBUM,Days from Albumin Preoperative Labs to Operation
+DPRBILI,Days from Bilirubin Preoperative Labs to Operation
+DPRSGOT,Days from SGOT Preoperative Labs to Operation
+DPRALKPH,Days from ALKPHOS Preoperative Labs to Operation
+DPRWBC,Days from WBC Preoperative Labs to Operation
+DPRHCT,Days from HCT Preoperative Labs to Operation
+DPRPLATE,Days from PlateCount Preoperative Labs to Operation
+DPRPTT,Days from PTT Preoperative Labs to Operation
+DPRPT,Days from PT Preoperative Labs to Operation
+DPRINR,Days from INR Preoperative Labs to Operation
+OTHERWRVU1,Other Work Relative Value Unit 1
+OTHERWRVU2,Other Work Relative Value Unit 2
+OTHERWRVU3,Other Work Relative Value Unit 3
+OTHERWRVU4,Other Work Relative Value Unit 4
+OTHERWRVU5,Other Work Relative Value Unit 5
+OTHERWRVU6,Other Work Relative Value Unit 6
+OTHERWRVU7,Other Work Relative Value Unit 7
+OTHERWRVU8,Other Work Relative Value Unit 8
+OTHERWRVU9,Other Work Relative Value Unit 9
+OTHERWRVU10,Other Work Relative Value Unit 10
+CONWRVU1,Concurrent Work Relative Value Unit 1
+CONWRVU2,Concurrent Work Relative Value Unit 2
+CONWRVU3,Concurrent Work Relative Value Unit 3
+CONWRVU4,Concurrent Work Relative Value Unit 4
+CONWRVU5,Concurrent Work Relative Value Unit 5
+CONWRVU6,Concurrent Work Relative Value Unit 6
+CONWRVU7,Concurrent Work Relative Value Unit 7
+CONWRVU8,Concurrent Work Relative Value Unit 8
+CONWRVU9,Concurrent Work Relative Value Unit 9
+CONWRVU10,Concurrent Work Relative Value Unit 10
+WNDCLAS,Wound classification
+MORTPROB,Estimated Probability of Mortality
+MORBPROB,Estimated Probability of Morbidity
+HDISDT,Hospital discharge Year
+YRDEATH,Year of death
+ADMQTR,Quarter of Admission
+HTOODAY,Days from Hospital Admission to Operation
+NSUPINFEC,Number of Superficial Incisional SSI  Occurrences
+SUPINFEC,Occurrences Superficial surgical site infection
+SSSIPATOS,Superficial Incisional SSI PATOS
+DSUPINFEC,Days from Operation until Superficial Incisional SSI Complication
+NWNDINFD,Number of Deep Incisional SSI Occurrences
+WNDINFD,Occurrences Deep Incisional SSI
+DSSIPATOS,Deep Incisional SSI PATOS
+DWNDINFD,Days from Operation until Deep Incisional SSI Complication
+NORGSPCSSI,Number of Organ/Space SSI Occurrences
+ORGSPCSSI,Occurrences Organ Space SSI
+OSSIPATOS,Organ/Space SSI PATOS
+DORGSPCSSI,Days from Operation until Organ/Space SSI Complication
+NDEHIS,Number of Wound Disruption Occurrences
+DEHIS,Occurrences Wound Disrupt
+DDEHIS,Days from Operation until Wound Disruption Complication
+NOUPNEUMO,Number of Pneumonia Occurrences
+OUPNEUMO,Occurrences Pneumonia
+PNAPATOS,Pneumonia PATOS
+DOUPNEUMO,Days from Operation until Pneumonia Complication
+NREINTUB,Number of Unplanned Intubation Occurrences
+REINTUB,Occurrences Unplanned Intubation
+DREINTUB,Days from Operation until Unplanned Intubation Complication
+NPULEMBOL,Number of Pulmonary Embolism Occurrences
+PULEMBOL,Occurrences Pulmonary Embolism
+DPULEMBOL,Days from Operation until Pulmonary Embolism Complication
+NFAILWEAN,Number of On Ventilator > 48 Hours Occurrences
+FAILWEAN,Occurrences Ventilator > 48Hours
+VENTPATOS,On Ventilator > 48 Hours PATOS
+DFAILWEAN,Days from Operation until On Ventilator > 48 Hours Complication
+NRENAINSF,Number of Progressive Renal Insufficiency Occurrences
+RENAINSF,Occurrences Progressive Renal Insufficiency
+DRENAINSF,Days from Operation until Progressive Renal Insufficiency Complication
+NOPRENAFL,Number of Acute Renal Failure Occurrences
+OPRENAFL,Occurrences Acute Renal Fail
+DOPRENAFL,Days from Operation until Acute Renal Failure Complication
+NURNINFEC,Number of Urinary Tract infection Occurrences
+URNINFEC,Occurrences Urinary Tract Infection
+UTIPATOS,UTI PATOS
+DURNINFEC,Days from Operation until Urinary Tract Infection Complication
+NCNSCVA,Number of Stroke/CVA Occurrences
+CNSCVA,CVA/Stroke with neurological deficit
+DCNSCVA,Days from Operation until Stroke/CVA Complication
+NCDARREST,Number of Cardiac Arrest Requiring CPR Occurrences
+CDARREST,Occurrences Cardiac Arrest Requiring CPR
+DCDARREST,Days from Operation until Cardiac Arrest Requiring CPR Complication
+NCDMI,Number of Myocardial Infarction Occurrences
+CDMI,Occurrences Myocardial Infarction
+DCDMI,Days from Operation until Myocardial Infarction Complication
+NOTHBLEED,Number of Bleeding Transfusions Occurrences
+OTHBLEED,Occurrences Bleeding Transfusions
+DOTHBLEED,Days from Operation until Bleeding Transfusions Complication
+NOTHDVT,Number of DVT/Thrombophlebitis Occurrences
+OTHDVT,Occurrences DVT/Thrombophlebitis
+DOTHDVT,Days from Operation until DVT/Thrombophlebitis Complication
+NOTHSYSEP,Number of Sepsis Occurrences
+OTHSYSEP,Occurrences Sepsis
+SEPSISPATOS,Sepsis PATOS
+DOTHSYSEP,Days from Operation until Sepsis Complication
+NOTHSESHOCK,Number of Septic Shock Occurrences
+OTHSESHOCK,Occurrences Septic Shock
+SEPSHOCKPATOS,Septic Shock PATOS
+DOTHSESHOCK,Days from Operation until Septic Shock Complication
+PODIAG10,Post-op diagnosis (ICD 10)
+PODIAGTX10,Post-op Diagnosis Text
+RETURNOR,Return to OR
+DOPERTOD,Days from Operation to Death
+DOPTODIS,Days from Operation to Discharge
+STILLINHOSP,Still in Hospital > 30 Days
+REOPERATION1,Unplanned Reoperation 1
+RETORPODAYS,Days from principal operative procedure to Unplanned Reoperation 1
+RETOR2PODAYS,Days from principal operative procedure to Unplanned Reoperation 2
+READMPODAYS1,Days from principal operative procedure to Any Readmission 1
+READMPODAYS2,Days from principal operative procedure to Any Readmission 2
+READMPODAYS3,Days from principal operative procedure to Any Readmission 3
+READMPODAYS4,Days from principal operative procedure to Any Readmission 4
+READMPODAYS5,Days from principal operative procedure to Any Readmission 5
+WOUND_CLOSURE,Surgical wound closure
+OTHCDIFF,Occurrences Clostridium Difficile (C.diff) Colitis
+NOTHCDIFF,Number of C. diff Occurrences
+DOTHCDIFF,Days from operation until C.diff Complication
