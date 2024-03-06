@@ -41,12 +41,31 @@ pd.set_option('display.max_columns', 15)
 
 # skipping Step 1 data preprocessing - import clean data here below
 # df=pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_preselect.csv')
+
+# df1. baseline 2018-2020, 126 features
 df_baseline_2018_2022 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/Jenny/processed_data/2018_2022/CABG_5yr_baseline.csv')
 df_baseline_2018_2020 = df_baseline_2018_2022[(df_baseline_2018_2022['PUFYEAR']==2018) | (df_baseline_2018_2022['PUFYEAR']==2019) | (df_baseline_2018_2022['PUFYEAR']==2020)]
 
+# df2. 2018-2022, 126 features
+# USE THIS df_baseline_2018_2022
 
-df_5yr_preselect40 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/10937f26fe011d25038340276e3ba2534b3ab566/code/main_code/processed_data/2018_2022/CABG_5yr_preselect40.csv')
 
+# df3. 5year, 40 selected features
+df_5yr_preselect40 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect40.csv')
+
+# df4. AutoFeat
+df_autofeat20 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top20.csv')
+df_autofeat10 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top10.csv')
+df_autofeat5 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top5.csv')
+
+# df5. Synthetic data
+df_syn_GANs = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_GANs.csv')
+## convert target column back to 0 and 1
+df_syn_GANs.loc[abs(df_syn_GANs['OTHBLEED']) >= 0.5] = 1
+df_syn_GANs.loc[df_syn_GANs['OTHBLEED'] < 0.5] = 0
+
+
+df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_Bayesian.csv')
 # # 43 features df
 # lst = df_5yr_preselect40.columns.to_list() + ['HEIGHT','WEIGHT','ETHNICITY_HISPANIC' ]
 # df_5yr_preselect43 = df_baseline_2018_2022[lst]
@@ -55,19 +74,27 @@ df_5yr_preselect40 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/
 # Calc_Top_Corr(features43, 20)
 # # df = df.drop(['PUFYEAR'], axis=1)
 
-# feature 20 using feature importances from random forest
-lst = model_rf.f_importances[-20:].index.to_list() + ['OTHBLEED']
-df_5yr_preselect20 = df_5yr_preselect40[lst]
+# # feature 20 using feature importances from random forest
+# lst = model_rf.f_importances[-20:].index.to_list() + ['OTHBLEED']
+# df_5yr_preselect20 = df_5yr_preselect40[lst]
 
-# Jenny's AutoFeat
-df = pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_autofeat_data.csv')
-df['OTHBLEED'] =
+
+
+########################################################################
+########################################################################
+##======================================================================
+# MODEL ITERATION PART - starting below
+##======================================================================
+########################################################################
+########################################################################
+
+
 # set cross-cutting variables
-df = df
+df = df_baseline_2018_2022
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
-k_folds = 5
+k_folds = 10
 
 #===============================================
 # Model 1: call Decision Tree model class
@@ -86,8 +113,12 @@ y_pred_dt_gini = Model_Predict(target, model_dt_gini.model_name, model_dt_gini.m
 Model_Report(target, model_dt_gini.model_name, model_dt_gini.y_test, y_pred_dt_gini)
 
 ## model accuracy
-Model_Accuracy(target, model_dt_gini.model_name, k_folds, random_state, model_dt_gini.model, model_dt_gini.X, model_dt_gini.y)
-accuracy_dt_gini = Model_Accuracy(target, model_dt_gini.model_name, k_folds, random_state, model_dt_gini.model, model_dt_gini.X, model_dt_gini.y)
+Model_Accuracy(target, model_dt_gini.model_name, random_state, model_dt_gini.model, model_dt_gini.y_test, y_pred_dt_gini)
+accuracy_dt_gini = Model_Accuracy(target, model_dt_gini.model_name, random_state, model_dt_gini.model, model_dt_gini.y_test, y_pred_dt_gini)
+
+## model mean accuracy (k-fold)
+Model_Mean_Accuracy(target, model_dt_gini.model_name, k_folds, random_state, model_dt_gini.model, model_dt_gini.X, model_dt_gini.y)
+mean_accuracy_dt_gini = Model_Mean_Accuracy(target, model_dt_gini.model_name, k_folds, random_state, model_dt_gini.model, model_dt_gini.X, model_dt_gini.y)
 
 ## model RMSE
 Model_RMSE(target, model_dt_gini.model_name, model_dt_gini.y_test, y_pred_dt_gini)
@@ -114,8 +145,8 @@ auc_dt_gini = Model_ROC_AUC_Score(target, model_dt_gini.model_name, model_dt_gin
 Plot_ROC_AUC(target, model_dt_gini.model_name, model_dt_gini.model, model_dt_gini.X_test, model_dt_gini.y_test)
 
 ## results table
-Model_Results_Table(model_dt_gini.model_name, model_dt_gini.parameters, target, test_size, model_dt_gini, k_folds, rmse_dt_gini, f1_dt_gini, auc_dt_gini)
-results_dt_gini = Model_Results_Table(model_dt_gini.model_name, model_dt_gini.parameters, target, test_size, accuracy_dt_gini, k_folds, rmse_dt_gini, f1_dt_gini, auc_dt_gini)
+Model_Results_Table(model_dt_gini.model_name, model_dt_gini.parameters, target, test_size, accuracy_dt_gini, mean_accuracy_dt_gini, k_folds, rmse_dt_gini, f1_dt_gini, auc_dt_gini)
+results_dt_gini = Model_Results_Table(model_dt_gini.model_name, model_dt_gini.parameters, target, test_size, accuracy_dt_gini, mean_accuracy_dt_gini, k_folds, rmse_dt_gini, f1_dt_gini, auc_dt_gini)
 
 #===============================================
 # Model 2: call Decision Tree model class
@@ -126,13 +157,14 @@ model_dt_entropy = DecisionTree(df, target, test_size, random_state,'entropy', 3
 
 # calculate needed metrics
 y_pred_dt_entropy = Model_Predict(target, model_dt_entropy.model_name, model_dt_entropy.model, model_dt_entropy.X_test)
-accuracy_dt_entropy = Model_Accuracy(target, model_dt_entropy.model_name, k_folds, random_state, model_dt_entropy.model, model_dt_entropy.X, model_dt_entropy.y)
+accuracy_dt_entropy = Model_Accuracy(target, model_dt_entropy.model_name, random_state, model_dt_entropy.model, model_dt_entropy.y_test, y_pred_dt_entropy)
+mean_accuracy_dt_entropy = Model_Mean_Accuracy(target, model_dt_entropy.model_name, k_folds, random_state, model_dt_entropy.model, model_dt_entropy.X, model_dt_entropy.y)
 rmse_dt_entropy = Model_RMSE(target, model_dt_entropy.model_name, model_dt_entropy.y_test, y_pred_dt_entropy)
 f1_dt_entropy = Model_F1(target, model_dt_entropy.model_name, model_dt_entropy.y_test, y_pred_dt_entropy)
 auc_dt_entropy = Model_ROC_AUC_Score(target, model_dt_entropy.model_name, model_dt_entropy.model, model_dt_entropy.X_test, model_dt_entropy.y_test)
 
 # results table
-results_dt_entropy = Model_Results_Table(model_dt_entropy.model_name, model_dt_entropy.parameters, target, test_size, accuracy_dt_entropy, k_folds, rmse_dt_entropy, f1_dt_entropy, auc_dt_entropy)
+results_dt_entropy = Model_Results_Table(model_dt_entropy.model_name, model_dt_entropy.parameters, target, test_size, accuracy_dt_entropy, mean_accuracy_dt_entropy, k_folds, rmse_dt_entropy, f1_dt_entropy, auc_dt_entropy)
 
 #===============================================
 # Model 3: call SVM model class
@@ -143,13 +175,14 @@ model_svm_linear = SVM(df,target,test_size,random_state,'linear',1.0,'auto')
 
 # calculate needed metrics
 y_pred_svm_linear = Model_Predict(target, model_svm_linear.model_name, model_svm_linear.model, model_svm_linear.X_test)
-accuracy_svm_linear = Model_Accuracy(target, model_svm_linear.model_name, k_folds, random_state, model_svm_linear.model, model_svm_linear.X, model_svm_linear.y)
+accuracy_svm_linear = Model_Accuracy(target, model_svm_linear.model_name, random_state, model_svm_linear.model, model_svm_linear.y_test, y_pred_svm_linear)
+mean_accuracy_svm_linear = Model_Mean_Accuracy(target, model_svm_linear.model_name, k_folds, random_state, model_svm_linear.model, model_svm_linear.X, model_svm_linear.y)
 rmse_svm_linear = Model_RMSE(target, model_svm_linear.model_name, model_svm_linear.y_test, y_pred_svm_linear)
 f1_svm_linear = Model_F1(target, model_svm_linear.model_name, model_svm_linear.y_test, y_pred_svm_linear)
 auc_svm_linear = Model_ROC_AUC_Score(target, model_svm_linear.model_name, model_svm_linear.model, model_svm_linear.X_test, model_svm_linear.y_test)
 
 # results table
-results_svm_linear = Model_Results_Table(model_svm_linear.model_name, model_svm_linear.parameters, target, test_size, accuracy_svm_linear, k_folds, rmse_svm_linear, f1_svm_linear, auc_svm_linear)
+results_svm_linear = Model_Results_Table(model_svm_linear.model_name, model_svm_linear.parameters, target, test_size, accuracy_svm_linear, mean_accuracy_svm_linear, k_folds, rmse_svm_linear, f1_svm_linear, auc_svm_linear)
 
 #===============================================
 # Model 4: call SVM model class
@@ -160,13 +193,14 @@ model_svm_rbf = SVM(df,target,test_size,random_state,'rbf',1.0, .2)
 
 # calculate needed metrics
 y_pred_svm_rbf = Model_Predict(target, model_svm_rbf.model_name, model_svm_rbf.model, model_svm_rbf.X_test)
-accuracy_svm_rbf = Model_Accuracy(target, model_svm_rbf.model_name, k_folds, random_state, model_svm_rbf.model, model_svm_rbf.X, model_svm_rbf.y)
+accuracy_svm_rbf = Model_Accuracy(target, model_svm_rbf.model_name, random_state, model_svm_rbf.model, model_svm_rbf.y_test, y_pred_svm_rbf)
+mean_accuracy_svm_rbf = Model_Mean_Accuracy(target, model_svm_rbf.model_name, k_folds, random_state, model_svm_rbf.model, model_svm_rbf.X, model_svm_rbf.y)
 rmse_svm_rbf = Model_RMSE(target, model_svm_rbf.model_name, model_svm_rbf.y_test, y_pred_svm_rbf)
 f1_svm_rbf = Model_F1(target, model_svm_rbf.model_name, model_svm_rbf.y_test, y_pred_svm_rbf)
 auc_svm_rbf = Model_ROC_AUC_Score(target, model_svm_rbf.model_name, model_svm_rbf.model, model_svm_rbf.X_test, model_svm_rbf.y_test)
 
 # results table
-results_svm_rbf = Model_Results_Table(model_svm_rbf.model_name, model_svm_rbf.parameters, target, test_size, accuracy_svm_rbf, k_folds, rmse_svm_rbf, f1_svm_rbf, auc_svm_rbf)
+results_svm_rbf = Model_Results_Table(model_svm_rbf.model_name, model_svm_rbf.parameters, target, test_size, accuracy_svm_rbf, mean_accuracy_svm_rbf, k_folds, rmse_svm_rbf, f1_svm_rbf, auc_svm_rbf)
 
 #===============================================
 # Model 5: call Logistic Regression model class
@@ -177,13 +211,14 @@ model_log = LogReg(df,target,test_size, random_state)
 
 # calculate needed metrics
 y_pred_log = Model_Predict(target, model_log.model_name, model_log.model, model_log.X_test)
-accuracy_log = Model_Accuracy(target, model_log.model_name, k_folds, random_state, model_log.model, model_log.X, model_log.y)
+accuracy_log = Model_Accuracy(target, model_log.model_name, random_state, model_log.model, model_log.y_test, y_pred_log)
+mean_accuracy_log = Model_Mean_Accuracy(target, model_log.model_name, k_folds, random_state, model_log.model, model_log.X, model_log.y)
 rmse_log = Model_RMSE(target, model_log.model_name, model_log.y_test, y_pred_log)
 f1_log = Model_F1(target, model_log.model_name, model_log.y_test, y_pred_log)
 auc_log = Model_ROC_AUC_Score(target, model_log.model_name, model_log.model, model_log.X_test, model_log.y_test)
 
 # results table
-results_log = Model_Results_Table(model_log.model_name, model_log.parameters, target, test_size, accuracy_log, k_folds, rmse_log, f1_log, auc_log)
+results_log = Model_Results_Table(model_log.model_name, model_log.parameters, target, test_size, accuracy_log, mean_accuracy_log, k_folds, rmse_log, f1_log, auc_log)
 
 #===============================================
 # Model 6: call GradientBoosting model class
@@ -194,13 +229,14 @@ model_gb = GradientBoosting(df,target, test_size,random_state, 300, 0.05)
 
 # calculate needed metrics
 y_pred_gb = Model_Predict(target, model_gb.model_name, model_gb.model, model_gb.X_test)
-accuracy_gb = Model_Accuracy(target, model_gb.model_name, k_folds, random_state, model_gb.model, model_gb.X, model_gb.y)
+accuracy_gb = Model_Accuracy(target, model_gb.model_name, random_state, model_gb.model, model_gb.y_test, y_pred_gb)
+mean_accuracy_gb = Model_Mean_Accuracy(target, model_gb.model_name, k_folds, random_state, model_gb.model, model_gb.X, model_gb.y)
 rmse_gb = Model_RMSE(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
 f1_gb = Model_F1(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
 auc_gb = Model_ROC_AUC_Score(target, model_gb.model_name, model_gb.model, model_gb.X_test, model_gb.y_test)
 
 # results table
-results_gb = Model_Results_Table(model_gb.model_name, model_gb.parameters, target, test_size, accuracy_gb, k_folds, rmse_gb, f1_gb, auc_gb)
+results_gb = Model_Results_Table(model_gb.model_name, model_gb.parameters, target, test_size, accuracy_gb, mean_accuracy_gb, k_folds, rmse_gb, f1_gb, auc_gb)
 
 #===============================================
 # Model 7: call XGBoost model class
@@ -211,13 +247,14 @@ model_xgb = XGB(df,target, test_size, random_state, 100, 0.3)
 
 # calculate needed metrics
 y_pred_xgb = Model_Predict(target, model_xgb.model_name, model_xgb.model, model_xgb.X_test)
-accuracy_xgb = Model_Accuracy(target, model_xgb.model_name, k_folds, random_state, model_xgb.model, model_xgb.X, model_xgb.y)
+accuracy_xgb = Model_Accuracy(target, model_xgb.model_name, random_state, model_xgb.model, model_xgb.y_test, y_pred_xgb)
+mean_accuracy_xgb = Model_Mean_Accuracy(target, model_xgb.model_name, k_folds, random_state, model_xgb.model, model_xgb.X, model_xgb.y)
 rmse_xgb = Model_RMSE(target, model_xgb.model_name, model_xgb.y_test, y_pred_xgb)
 f1_xgb = Model_F1(target, model_xgb.model_name, model_xgb.y_test, y_pred_xgb)
 auc_xgb = Model_ROC_AUC_Score(target, model_xgb.model_name, model_xgb.model, model_xgb.X_test, model_xgb.y_test)
 
 # results table
-results_xgb = Model_Results_Table(model_xgb.model_name, model_xgb.parameters, target, test_size, accuracy_xgb, k_folds, rmse_xgb, f1_xgb, auc_xgb)
+results_xgb = Model_Results_Table(model_xgb.model_name, model_xgb.parameters, target, test_size, accuracy_xgb, mean_accuracy_xgb, k_folds, rmse_xgb, f1_xgb, auc_xgb)
 
 #===============================================
 # Model 8: call GaussianNB model class
@@ -228,13 +265,14 @@ model_nb = NaiveBayesGaussianNB(df, target, test_size, random_state)
 
 # calculate needed metrics
 y_pred_nb = Model_Predict(target, model_nb.model_name, model_nb.model, model_nb.X_test)
-accuracy_nb = Model_Accuracy(target, model_nb.model_name, k_folds, random_state, model_nb.model, model_nb.X, model_nb.y)
+accuracy_nb = Model_Accuracy(target, model_nb.model_name, random_state, model_nb.model, model_nb.y_test, y_pred_nb)
+mean_accuracy_nb = Model_Mean_Accuracy(target, model_nb.model_name, k_folds, random_state, model_nb.model, model_nb.X, model_nb.y)
 rmse_nb = Model_RMSE(target, model_nb.model_name, model_nb.y_test, y_pred_nb)
 f1_nb = Model_F1(target, model_nb.model_name, model_nb.y_test, y_pred_nb)
 auc_nb = Model_ROC_AUC_Score(target, model_nb.model_name, model_nb.model, model_nb.X_test, model_nb.y_test)
 
 # results table
-results_nb = Model_Results_Table(model_nb.model_name, model_nb.parameters, target, test_size, accuracy_nb, k_folds, rmse_nb, f1_nb, auc_nb)
+results_nb = Model_Results_Table(model_nb.model_name, model_nb.parameters, target, test_size, accuracy_nb, mean_accuracy_nb, k_folds, rmse_nb, f1_nb, auc_nb)
 
 #===============================================
 # Model 9: call KNN model class
@@ -245,13 +283,14 @@ model_knn = KNN(df,target, test_size, random_state, 3)
 
 # calculate needed metrics
 y_pred_knn = Model_Predict(target, model_knn.model_name, model_knn.model, model_knn.X_test)
-accuracy_knn = Model_Accuracy(target, model_knn.model_name, k_folds, random_state, model_knn.model, model_knn.X, model_knn.y)
+accuracy_knn = Model_Accuracy(target, model_knn.model_name, random_state, model_knn.model, model_knn.y_test, y_pred_knn)
+mean_accuracy_knn = Model_Mean_Accuracy(target, model_knn.model_name, k_folds, random_state, model_knn.model, model_knn.X, model_knn.y)
 rmse_knn = Model_RMSE(target, model_knn.model_name, model_knn.y_test, y_pred_knn)
 f1_knn = Model_F1(target, model_knn.model_name, model_knn.y_test, y_pred_knn)
 auc_knn = Model_ROC_AUC_Score(target, model_knn.model_name, model_knn.model, model_knn.X_test, model_knn.y_test)
 
 # results table
-results_knn = Model_Results_Table(model_knn.model_name, model_knn.parameters, target, test_size, accuracy_knn, k_folds, rmse_knn, f1_knn, auc_knn)
+results_knn = Model_Results_Table(model_knn.model_name, model_knn.parameters, target, test_size, accuracy_knn, mean_accuracy_knn, k_folds, rmse_knn, f1_knn, auc_knn)
 
 #===============================================
 # Model 10: call RandomForest model class
@@ -265,13 +304,14 @@ Plot_Feature_Importances(model_rf.f_importances)
 
 # calculate needed metrics
 y_pred_rf = Model_Predict(target, model_rf.model_name, model_rf.model_k_features, model_rf.newX_test)
-accuracy_rf = Model_Accuracy(target, model_rf.model_name, k_folds, random_state, model_rf.model_k_features, model_rf.X, model_rf.y)
+accuracy_rf = Model_Accuracy(target, model_rf.model_name, random_state, model_rf.model_k_features, model_rf.y_test, y_pred_rf)
+mean_accuracy_rf = Model_Mean_Accuracy(target, model_rf.model_name, k_folds, random_state, model_rf.model_k_features, model_rf.X, model_rf.y)
 rmse_rf = Model_RMSE(target, model_rf.model_name, model_rf.y_test, y_pred_rf)
 f1_rf = Model_F1(target, model_rf.model_name, model_rf.y_test, y_pred_rf)
 auc_rf = Model_ROC_AUC_Score(target, model_rf.model_name, model_rf.model_k_features, model_rf.newX_test, model_rf.y_test)
 
 # results table
-results_rf = Model_Results_Table(model_rf.model_name, model_rf.parameters, target, test_size, accuracy_rf, k_folds, rmse_rf, f1_rf, auc_rf)
+results_rf = Model_Results_Table(model_rf.model_name, model_rf.parameters, target, test_size, accuracy_rf, mean_accuracy_rf, k_folds, rmse_rf, f1_rf, auc_rf)
 
 # ===================================================
 # Display all the model results to compare
@@ -307,6 +347,91 @@ lst = [Plot_ROC_AUC(target, model_dt_gini.model_name, model_dt_gini.model, model
 # display all ROC plots
 Plot_ROC_Combined(lst)
 
+########################################################################
+########################################################################
+##======================================================================
+# MODEL ITERATION PART - ended above
+##======================================================================
+########################################################################
+########################################################################
+
+# Post-Training Analysis
+
+## step1. classificaiton report to check class balance
+Model_Report(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
+
+## step 2. VIF
+features = df_baseline_2018_2022.drop(['OTHBLEED'], axis=1)
+Calc_Plot_VIF(features, 40)
+df_vif = Calc_Plot_VIF(features, 40)
+
+## step 3. corr coef
+Calc_Top_Corr(features, 40)
+Plot_Heatmap_Top_Corr(features, .7, 'Top Correlation Feature Pairs - Threshold = 0.7')
+
+## step 4. feature importance
+### 4.1. f_importances
+# from model_rf
+Plot_Feature_Importances(model_rf.f_importances[-40:])
+
+model_rf.f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+plt.xlabel('Feature Importances')
+plt.title('Feature Importances (126) - Random Forest')
+plt.tight_layout()
+plt.show()
+
+model_rf.f_importances[-40:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+plt.xlabel('Feature Importances')
+plt.title('Feature Importances TOP 40 - Random Forest')
+plt.tight_layout()
+plt.show()
+
+### 4.2. f_importances
+# from model_gb
+# get feature importances
+importances = model_gb.model.feature_importances_
+
+# convert the importances into one-dimensional 1darray with corresponding df column names as axis labels
+f_importances = pd.Series(importances, df.iloc[:, 1:].columns)
+
+# sort the array in descending order of the importances
+f_importances.sort_values(ascending=True, inplace=True)
+
+# plot
+f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+plt.xlabel('Feature Importances')
+plt.title('Feature Importances (126) - Gradient Boosting')
+plt.tight_layout()
+plt.show()
+
+f_importances[-40:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+plt.xlabel('Feature Importances')
+plt.title('Feature Importances TOP 40 - Gradient Boosting')
+plt.tight_layout()
+plt.show()
+
+### 4.2. SHAP
+import shap
+explainer = shap.Explainer(model_gb.model)
+shap_values = explainer.shap_values(model_gb.X_test)
+shap.summary_plot(shap_values, model_gb.X_test, plot_type='bar')
+shap.summary_plot(shap_values, model_gb.X_test)
+shap.decision_plot(explainer.expected_value[0], shap_values[0], model_gb.X_test.columns)
+
+### 4.3. LIME
+import lime
+import lime.lime_tabular
+
+explainer = lime.lime_tabular.LimeTabularExplainer(model_gb.X_train.values, feature_names=model_gb.feature_names,
+                                                  class_names=['No', 'Transfusions'], verbose=True, mode='regression')
+# Choose the 5th instance and use it to predict the results
+j = 10
+exp = explainer.explain_instance(model_gb.X_test.values[j], model_gb.model.predict, num_features=20)
+collinearity
+# Show the predictions
+exp.show_in_notebook(show_table=True)
+exp.save_to_file(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\lime.html')
+
 # =====================================
 # STEP3. Feature Selection           ||
 # =====================================
@@ -322,7 +447,6 @@ features40 = df_5yr_preselect40.drop(['PUFYEAR'], axis=1)
 Calc_Plot_VIF(features40, 40)
 Calc_Top_Corr(features40, 20)
 Plot_Heatmap_Top_Corr(features40, .5, 'Top Correlation Feature Pairs - Threshold = 0.5')
-
 
 # 2. check feature importances from random forest
 

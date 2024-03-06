@@ -6,20 +6,21 @@
 # 1. Model_Predict()
 # 2. Model_Report()
 # 3. Model_Accuracy()
-# 4. Model_RMSE()
-# 5. Model_F1()
-# 6. Model_Confusion_Matrix()
-# 7. Plot_Confusion_Matrix()
-# 8. Plot_Decision_Tree()
-# 9. Model_ROC_AUC_Score()
-# 10. Plot_ROC_AUC()
-# 11. Plot_Random_ForFeature_Importances
-# 12. Model_Results_Table()
-# 13. Plot_ROC_Combined()
+# 4. Model_Mean_Accuracy()
+# 5. Model_RMSE()
+# 6. Model_F1()
+# 7. Model_Confusion_Matrix()
+# 8. Plot_Confusion_Matrix()
+# 9. Plot_Decision_Tree()
+# 10. Model_ROC_AUC_Score()
+# 11. Plot_ROC_AUC()
+# 12. Plot_Random_ForFeature_Importances
+# 13. Model_Results_Table()
+# 14. Plot_ROC_Combined()
 
-# 14. Calc_Plot_VIF()
-# 15. Calc_Top_Corr()
-# 16. Plot_Heatmap_Top_Corr
+# 15. Calc_Plot_VIF()
+# 16. Calc_Top_Corr()
+# 17. Plot_Heatmap_Top_Corr
 
 
 
@@ -56,15 +57,22 @@ def Model_Report(target, model_name, y_test, y_pred):
     report = classification_report(y_test, y_pred)
     print('Report:\n', report)
 
-def Model_Accuracy(target, model_name, k_folds, random_state, model, X, y):
-    # perform cross validation
+def Model_Accuracy(target, model_name, random_state, model, y_test, y_pred):
     print('-' * 80)
+    # accuracy score
+    acc_score = accuracy_score(y_test, y_pred)*100
+    print(f'Model Accuracy: {acc_score}')
+    return acc_score
+
+def Model_Mean_Accuracy(target, model_name, k_folds, random_state, model, X, y):
+    print('-' * 80)
+    # perform cross validation
     kf = KFold(n_splits=k_folds, shuffle=True, random_state=random_state)
     scores = cross_val_score(model, X, y, cv=kf)
     mean_accuracy = scores.mean() * 100
     print('Target: ', target)
     print('Model: ', model_name)
-    print(f'Model Accuracy (mean of {k_folds} folds): {mean_accuracy}')
+    print(f'Model Mean Accuracy (mean of {k_folds} folds): {mean_accuracy}')
     return mean_accuracy
 
 def Model_RMSE(target, model_name, y_test, y_pred):
@@ -121,7 +129,7 @@ def Plot_Decision_Tree(target, model_name, model, feature_names):
     print('Model: ', model_name)
     print('Plot the decision tree: ')
     plt.figure(figsize=(15, 10))
-    tree.plot_tree(model, filled=True, feature_names=feature_names, class_names=['Transfusions', 'No'],
+    tree.plot_tree(model, filled=True, feature_names=feature_names, class_names=['No', 'Transfusions'],
                    rounded=True, fontsize=14)
     plt.show()
 
@@ -158,12 +166,13 @@ def Plot_ROC_AUC(target, model_name, model, X_test, y_test):
     plt.show()
     return fpr, tpr, auc, model_name
 
-def Model_Results_Table(model_name_lst, parameters_lst, target, test_size, accuracy_lst, k_folds, rmse_lst, f1_lst, auc_lst):
+def Model_Results_Table(model_name_lst, parameters_lst, target, test_size, accuracy_lst, mean_accuracy_lst, k_folds, rmse_lst, f1_lst, auc_lst):
 
     # construct the table
     dict = {'Model Name': model_name_lst,
             'Parameters': parameters_lst,
-            'Mean Accuracy (' + str(k_folds) + ' folds)': accuracy_lst,
+            'Accuracy': accuracy_lst,
+            'Mean Accuracy (' + str(k_folds) + ' folds)': mean_accuracy_lst,
             'RMSE': rmse_lst,
             'F1-score (macro avg)': f1_lst,
             'ROC-AUC score': auc_lst}
@@ -196,7 +205,7 @@ def Calc_Plot_VIF(df, n):   # n = num of features included
     # calculating VIF for each feature
     df_vif["VIF"] = [variance_inflation_factor(df.values, i)
                        for i in range(len(df.columns))]
-    df_vif = df_vif.sort_values('VIF', ascending=False)
+    df_vif = df_vif.sort_values('VIF', ascending=False)[0:n]
 
     # plot
     df_vif.sort_values('VIF', ascending=True).plot(y='VIF', x='Features', kind='barh', figsize=(12, 6))
@@ -234,7 +243,7 @@ def Plot_Heatmap_Top_Corr(df, n, title):    #  n = corr coef threshold
     plt.show()
 
 def Plot_Feature_Importances(df_f_importances):
-    df_f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=15)
+    df_f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
     plt.xlabel('Feature Importances')
     plt.title('Feature Importances - Random Forest')
     plt.tight_layout()

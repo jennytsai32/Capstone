@@ -18,7 +18,7 @@ class SVM:
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)
 
         self.class_names = self.df[self.target].unique()
-        self.feature_names = self.df.drop([self.target], axis=1).columns
+        self.feature_names = self.df.drop([self.target], axis=1).columns.to_list()
 
         # creating the classifier object
         self.model = SVC(kernel=kernel, C=C, random_state=self.random_state, gamma=gamma, probability=True)
