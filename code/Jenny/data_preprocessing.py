@@ -35,14 +35,18 @@ df_18_21 = pd.read_csv('processed_data/CABG_2018_2021.csv')
 df_21 = pd.read_spss('raw_data/CABG 2021 Original.sav')
 df_22, meta = pyreadstat.read_sav("raw_data/CABG 2022 Original.sav", encoding="latin1")
 
-print(f'2020 size:{df_21.shape}')
+print(f'2021 size:{df_21.shape}')
 print(f'2022 size:{df_22.shape}')
 
-
+#%%
 # capitalize all variables in 2022 data and rename BLEEDIS
 df_22.columns = df_22.columns.str.upper()
 df_22 = df_22.rename(columns={'BLEEDDIS':'BLEEDIS'})
 
+print(df_22['BLEEDIS'])
+print(df_22.head())
+
+#%%
 # recode ETHNICITY_HISPANIC and OTHBLEED
 m = datasci(df_18_21)
 m.size()
@@ -142,6 +146,7 @@ df.shape #(85877, 129)
 df.to_csv('processed_data/2018_2022/CABG_5yr_129.csv', index=False)
 
 
+
 #%% Baseline data with 129 features ******************
 #++++++++++++++++++++++++++++++++++++++++
 import pandas as pd
@@ -154,6 +159,11 @@ df = pd.read_csv('processed_data/2018_2022/CABG_5yr_129.csv')
 print(df.head())
 print(df.shape) #(8587, 129)
 
+#%%
+from datasci import *
+glossary('NOTHBLEED')
+glossary('DOTHBLEED')
+glossary('PRHCT')
 
 #%%
 m = datasci(df)
@@ -180,6 +190,8 @@ m.impute_all()
 #%% calculate BMI using weight and height after imputation
 df['BMI']= (df['WEIGHT']/df['HEIGHT']**2) *703
 
+#%%
+
 
 #%%
 # standardize
@@ -188,14 +200,34 @@ m.standardize(col_list=std_cols)
 
 
 #%%
-df = df.drop(['CASEID'], axis=1)
+df = df.drop(['CASEID','NOTHBLEED','DOTHBLEED'], axis=1)
 df.head()
 
 #%%
+df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_std.csv',index=False)
+#df.to_csv('processed_data/2018_2022/CABG_5yr_baseline.csv',index=False)
 
-#df.to_csv('processed_data/2018_2022/CABG_5yr_baseline_std.csv',index=False)
-df.to_csv('processed_data/2018_2022/CABG_5yr_baseline.csv',index=False)
+#%% correlation with target
 
+import pandas as pd
+import numpy as np
+from datasci import *
+
+
+df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline.csv')
+df_preselect = pd.read_csv('preselect_features.csv')
+
+preselect_features = df_preselect.Name.tolist()
+preselect_features.append('BMI')
+
+corr_lst = [df[col].corr(df['OTHBLEED']) for col in df.columns]
+preselect = [(col in preselect_features) for col in df.columns]
+output = pd.DataFrame({'Name':df.columns,
+                       'r': corr_lst,
+                       'preselect':preselect})
+output = output.sort_values(by=['r'], ascending=False)
+print(output.head())
+output.to_csv('processed_data/2018_2022/CABG_5yr_baseline_review.csv',index=False)
 
 #**** Preselct 43 features ****
 #%%
@@ -203,6 +235,7 @@ import pandas as pd
 from datasci import *
 
 df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline_std.csv')
+
 df_preselect = pd.read_csv('preselect_features.csv')
 print(df.shape) # (8587, 129)
 print(df_preselect.shape) # (43, 2)
@@ -242,17 +275,46 @@ df_20.to_csv('processed_data/2018_2022/CABG_5yr_preselect20.csv',index=False)
 # %% feature selection using random forest
 m = datasci(df_20)
 target = 'OTHBLEED'
-features = preselect_20[1:]
+features = df_20.columns[1:]
 m.featureSelection(features, target)
 
 # %%
+import pandas as pd
+from datasci import *
+
+df_40 = pd.read_csv('processed_data/2018_2022/CABG_5yr_preselect40.csv')
 m = datasci(df_40)
 target = 'OTHBLEED'
-features = preselect_20[1:]
+features = df_40.columns[1:]
 m.featureSelection(features, target)
 
 
-# %%
-df['OPTIME']
+# %% quick check
+
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, f1_score
+from sklearn.model_selection import train_test_split
+
+
+df = pd.read_csv('processed_data/2018_2022/CABG_5yr_baseline.csv')
+#df = pd.read_csv('processed_data/2018_2022/CABG_autofeat_top5.csv')
+
+
+X = df.drop('OTHBLEED', axis=1)
+y = df['OTHBLEED']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+
+rf = RandomForestClassifier()
+rf.fit(X_train, y_train)
+
+y_pred = rf.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+f1 = f1_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+print("F1-score:", f1)
 
 # %%
