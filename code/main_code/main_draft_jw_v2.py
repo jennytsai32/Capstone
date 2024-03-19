@@ -425,11 +425,11 @@ import lime.lime_tabular
 explainer = lime.lime_tabular.LimeTabularExplainer(model_gb.X_train.values, feature_names=model_gb.feature_names,
                                                   class_names=['No', 'Transfusions'], verbose=True, mode='regression')
 # Choose the 5th instance and use it to predict the results
-j = 10
+j = 150
 exp = explainer.explain_instance(model_gb.X_test.values[j], model_gb.model.predict, num_features=20)
-collinearity
+
 # Show the predictions
-exp.show_in_notebook(show_table=True)
+# exp.show_in_notebook(show_table=True)
 exp.save_to_file(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\lime.html')
 
 # =====================================
