@@ -12,7 +12,7 @@ class RandomForest:
         self.test_size = test_size
         self.random_state = random_state
         self.model_name = 'Random Forest'
-        self.parameters = 'n_estimators='+str(n_estimators) + ', ' +str(feature_importances) + '_features'
+        self.parameters = 'n_estimators='+str(n_estimators) + ', ' + 'features_importances='+str(feature_importances)
 
         self.X = df.drop([target], axis=1)
         self.y = df[target]

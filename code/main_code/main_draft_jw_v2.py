@@ -64,7 +64,9 @@ df_syn_GANs = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capston
 df_syn_GANs.loc[abs(df_syn_GANs['OTHBLEED']) >= 0.5] = 1
 df_syn_GANs.loc[df_syn_GANs['OTHBLEED'] < 0.5] = 0
 
+# df6. preselect41 - added OTHERCPT1
 
+df_5yr_preselect41 = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect41.csv')
 df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_Bayesian.csv')
 # # 43 features df
 # lst = df_5yr_preselect40.columns.to_list() + ['HEIGHT','WEIGHT','ETHNICITY_HISPANIC' ]
@@ -90,7 +92,7 @@ df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone
 
 
 # set cross-cutting variables
-df = df_baseline_2018_2022
+df = df_5yr_preselect41
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
@@ -325,7 +327,8 @@ combined_results_table = pd.concat([results_dt_gini,
                                     results_gb,
                                     results_xgb,
                                     results_knn,
-                                    results_rf])
+                                    #results_rf
+                                    ])
 combined_results_table
 
 # ===================================================
@@ -361,13 +364,13 @@ Plot_ROC_Combined(lst)
 Model_Report(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
 
 ## step 2. VIF
-features = df_baseline_2018_2022.drop(['OTHBLEED'], axis=1)
-Calc_Plot_VIF(features, 40)
-df_vif = Calc_Plot_VIF(features, 40)
+features = df_5yr_preselect41.drop(['OTHBLEED'], axis=1)
+Calc_Plot_VIF(features, 41)
+df_vif = Calc_Plot_VIF(features, 41)
 
 ## step 3. corr coef
 Calc_Top_Corr(features, 40)
-Plot_Heatmap_Top_Corr(features, .7, 'Top Correlation Feature Pairs - Threshold = 0.7')
+Plot_Heatmap_Top_Corr(features, .5, 'Top Correlation Feature Pairs - Threshold = 0.5')
 
 ## step 4. feature importance
 ### 4.1. f_importances
@@ -404,9 +407,9 @@ plt.title('Feature Importances (126) - Gradient Boosting')
 plt.tight_layout()
 plt.show()
 
-f_importances[-40:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+f_importances[-20:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
 plt.xlabel('Feature Importances')
-plt.title('Feature Importances TOP 40 - Gradient Boosting')
+plt.title('Feature Importances TOP 20 - Gradient Boosting')
 plt.tight_layout()
 plt.show()
 
