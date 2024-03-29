@@ -42,17 +42,21 @@ pd.set_option('display.max_columns', 15)
 # skipping Step 1 data preprocessing - import clean data here below
 # df=pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_preselect.csv')
 
+############ iteration 1
 # df1. baseline 2018-2020, 126 features
 df_baseline_2018_2022 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/Jenny/processed_data/2018_2022/CABG_5yr_baseline.csv')
 df_baseline_2018_2020 = df_baseline_2018_2022[(df_baseline_2018_2022['PUFYEAR']==2018) | (df_baseline_2018_2022['PUFYEAR']==2019) | (df_baseline_2018_2022['PUFYEAR']==2020)]
 
+############ iteration 2
 # df2. 2018-2022, 126 features
 # USE THIS df_baseline_2018_2022
 
+############ iteration 3
+# df3. 5year, 41 selected features （added OTHERCPT1）
+df_5yr_preselect41 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect41.csv')
+df_5yr_preselect41_no_year = df_5yr_preselect41.drop(['PUFYEAR'], axis=1)
 
-# df3. 5year, 40 selected features
-df_5yr_preselect40 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect40.csv')
-
+############ iteration 4
 # df4. AutoFeat
 df_autofeat20 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top20.csv')
 df_autofeat10 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top10.csv')
@@ -67,6 +71,8 @@ df_syn_GANs.loc[df_syn_GANs['OTHBLEED'] < 0.5] = 0
 # df6. preselect41 - added OTHERCPT1
 
 df_5yr_preselect41 = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect41.csv')
+
+
 df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_Bayesian.csv')
 # # 43 features df
 # lst = df_5yr_preselect40.columns.to_list() + ['HEIGHT','WEIGHT','ETHNICITY_HISPANIC' ]
@@ -92,7 +98,7 @@ df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone
 
 
 # set cross-cutting variables
-df = df_5yr_preselect41
+df = df_new
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
@@ -327,7 +333,7 @@ combined_results_table = pd.concat([results_dt_gini,
                                     results_gb,
                                     results_xgb,
                                     results_knn,
-                                    #results_rf
+                                    results_rf
                                     ])
 combined_results_table
 
@@ -456,7 +462,7 @@ Plot_Heatmap_Top_Corr(features40, .5, 'Top Correlation Feature Pairs - Threshold
 # 3. PCA
 from class_pca import PCA_for_Feature_Selection
 
-df = df_5yr_preselect20
+df = df_5yr_preselect41_no_year
 
 # import PCA class
 pca_module = PCA_for_Feature_Selection(df, 'OTHBLEED')
@@ -470,6 +476,7 @@ pca_module.Reduced_Feature_Space_Heatmap()
 
 # get new df to feed into the models
 df_new = pca_module.PCA_New_df()
+df_new.to_csv(r'C:\Users\wb576802\OneDrive - WBG\Documents\df_PCA_39feature.csv',index=False)
 
 # add the target back
 print(df_new.shape)

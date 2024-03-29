@@ -14,8 +14,8 @@ class RandomForest:
         self.model_name = 'Random Forest'
         self.parameters = 'n_estimators='+str(n_estimators) + ', ' + 'features_importances='+str(feature_importances)
 
-        self.X = df.drop([target], axis=1)
-        self.y = df[target]
+        self.X = df.drop([target], axis=1).values
+        self.y = df[target].values
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)
 
         # build model

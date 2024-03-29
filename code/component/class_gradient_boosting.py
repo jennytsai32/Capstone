@@ -13,8 +13,8 @@ class GradientBoosting:
         self.model_name = 'Gradient Boosting'
         self.parameters = 'n_estimators='+str(n_estimators) +', learning_rate='+str(learning_rate)
 
-        self.X = df.drop([target], axis=1)
-        self.y = df[target]
+        self.X = df.drop([target], axis=1).values
+        self.y = df[target].values
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=test_size, random_state=random_state)
 
         self.class_names = self.df[self.target].unique()

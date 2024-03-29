@@ -223,7 +223,7 @@ def Calc_Top_Corr(df, n):    # n = # of top corr pair
     corr_matrix = df.corr()
     df_corr = (corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)).stack().sort_values(ascending=False))
     df_corr = pd.DataFrame(df_corr).reset_index()
-    df_corr.columns=['Variable_1','Variable_2','Correlacion']
+    df_corr.columns=['Variable_1','Variable_2','Correlation']
     df_sorted_corr = df_corr.reindex(df_corr.Correlacion.abs().sort_values(ascending=False).index).reset_index().drop(['index'],axis=1)
     return df_sorted_corr.head(n)
 
