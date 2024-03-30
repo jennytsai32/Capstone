@@ -42,50 +42,96 @@ pd.set_option('display.max_columns', 15)
 # skipping Step 1 data preprocessing - import clean data here below
 # df=pd.read_csv(r'C:\Users\wb576802\Documents\non-work\GWU\Capstone\Github folders\Capstone\code\main_code\processed_data\2018_2020\CABG_preselect.csv')
 
-############ iteration 1
+# =====================================
+# iteration 1 - 2018-2020
+# =====================================
+
 # df1. baseline 2018-2020, 126 features
 df_baseline_2018_2022 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/Jenny/processed_data/2018_2022/CABG_5yr_baseline.csv')
 df_baseline_2018_2020 = df_baseline_2018_2022[(df_baseline_2018_2022['PUFYEAR']==2018) | (df_baseline_2018_2022['PUFYEAR']==2019) | (df_baseline_2018_2022['PUFYEAR']==2020)]
 
-############ iteration 2
+# =====================================
+# iteration 2 - 2018-2022
+# =====================================
 # df2. 2018-2022, 126 features
 # USE THIS df_baseline_2018_2022
 
-############ iteration 3
+# =====================================
+# iteration 3 - 41 features
+# =====================================
+
 # df3. 5year, 41 selected features （added OTHERCPT1）
 df_5yr_preselect41 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect41.csv')
 df_5yr_preselect41_no_year = df_5yr_preselect41.drop(['PUFYEAR'], axis=1)
 
-############ iteration 4
-# df4. AutoFeat
-df_autofeat20 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top20.csv')
+# =====================================
+# iteration 4 - PCA
+# =====================================
+# PCA
+from class_pca import PCA_for_Feature_Selection
+
+df = df_5yr_preselect41_no_year
+
+# import PCA class
+pca_module = PCA_for_Feature_Selection(df, 'OTHBLEED')
+
+# how many features suggested to reduce
+pca_module.PCA_Reduced_Feature()
+
+pca_module.Explained_Variance_Ratio()
+pca_module.Reduced_Feature_Space_Plot()
+pca_module.Reduced_Feature_Space_Heatmap()
+
+# get new df to feed into the models
+df_new = pca_module.PCA_New_df()
+df_new.to_csv(r'C:\Users\wb576802\OneDrive - WBG\Documents\df_PCA_39feature.csv',index=False)
+
+# add the target back
+print(df_new.shape)
+# adding original target value back to df_new
+df_new['OTHBLEED'] = df['OTHBLEED'].values
+
+# =====================================
+# iteration 5 - AutoFeat             ||
+# =====================================
+df_autofeat20 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect20.csv')
 df_autofeat10 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top10.csv')
 df_autofeat5 = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_autofeat_top5.csv')
 
-# df5. Synthetic data
-df_syn_GANs = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_GANs.csv')
-## convert target column back to 0 and 1
-df_syn_GANs.loc[abs(df_syn_GANs['OTHBLEED']) >= 0.5] = 1
-df_syn_GANs.loc[df_syn_GANs['OTHBLEED'] < 0.5] = 0
 
-# df6. preselect41 - added OTHERCPT1
+# =====================================
+# iteration 6 - TPOT                 ||
+# =====================================
+from class_tpot import TPOT
 
-df_5yr_preselect41 = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_5yr_preselect41.csv')
+random_state = 100
+test_size = .25
+target = 'OTHBLEED'
+k_folds = 10
 
+# initiate the model
+# 0.25 on test size, random_state = 100, generations=5, population_size=20, verbosity=2
+df = df_5yr_preselect41_no_year
+model_tpot = TPOT(df, target, test_size, random_state, 5, 20, 2)
+model_tpot.scores
+
+# ==========================================================
+# iteration 7 -    Synthetic data - Bayesian networks   ||
+# ==========================================================
+
+# df_syn_GANs = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_GANs.csv')
+# ## convert target column back to 0 and 1
+# df_syn_GANs.loc[abs(df_syn_GANs['OTHBLEED']) >= 0.5] = 1
+# df_syn_GANs.loc[df_syn_GANs['OTHBLEED'] < 0.5] = 0
 
 df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_Bayesian.csv')
-# # 43 features df
-# lst = df_5yr_preselect40.columns.to_list() + ['HEIGHT','WEIGHT','ETHNICITY_HISPANIC' ]
-# df_5yr_preselect43 = df_baseline_2018_2022[lst]
-# features43 = df_5yr_preselect43.drop(['PUFYEAR'], axis=1)
-# Calc_Plot_VIF(features43, 43)
-# Calc_Top_Corr(features43, 20)
-# # df = df.drop(['PUFYEAR'], axis=1)
+df_syn_bay = df_syn_bay.drop(['PUFYEAR'], axis=1)
 
-# # feature 20 using feature importances from random forest
-# lst = model_rf.f_importances[-20:].index.to_list() + ['OTHBLEED']
-# df_5yr_preselect20 = df_5yr_preselect40[lst]
-
+# ==============================
+# iteration 8 -  2015-2022     ||
+# ==============================
+df_8yr_preselect41 = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2015_2022/CABG_8yr_preselect41.csv')
+df_8yr_feature40 = df_8yr_preselect41.drop(['PUFYEAR'], axis=1)
 
 
 ########################################################################
@@ -98,7 +144,7 @@ df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone
 
 
 # set cross-cutting variables
-df = df_new
+df = df_5yr_preselect41_no_year
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
@@ -395,8 +441,35 @@ plt.title('Feature Importances TOP 40 - Random Forest')
 plt.tight_layout()
 plt.show()
 
+# ================================
+# post-training analysis --- feature importance
+# ================================
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import GradientBoostingClassifier
+
+df = df_5yr_preselect41_no_year
+random_state = 100
+test_size = .25
+target = 'OTHBLEED'
+k_folds = 10
+n_estimators = 300
+learning_rate = 0.05
+
+
+X = df.drop([target], axis=1)
+y = df[target]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+# class_names = df[target].unique()
+# feature_names = df.drop([target], axis=1).columns.to_list()
+
+# creating the classifier object
+model_gb_shap = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state,
+                                        learning_rate=learning_rate)
+model_gb_shap.fit(X_train, y_train)
+
 ### 4.2. f_importances
-# from model_gb
+#1) from model_gb - iteration 3
 # get feature importances
 importances = model_gb.model.feature_importances_
 
@@ -407,25 +480,117 @@ f_importances = pd.Series(importances, df.iloc[:, 1:].columns)
 f_importances.sort_values(ascending=True, inplace=True)
 
 # plot
-f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
-plt.xlabel('Feature Importances')
-plt.title('Feature Importances (126) - Gradient Boosting')
-plt.tight_layout()
-plt.show()
+# f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+# plt.xlabel('Feature Importances')
+# plt.title('Feature Importances (126) - Gradient Boosting')
+# plt.tight_layout()
+# plt.show()
 
 f_importances[-20:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
 plt.xlabel('Feature Importances')
 plt.title('Feature Importances TOP 20 - Gradient Boosting')
-plt.tight_layout()
 plt.show()
 
 ### 4.2. SHAP
 import shap
-explainer = shap.Explainer(model_gb.model)
-shap_values = explainer.shap_values(model_gb.X_test)
-shap.summary_plot(shap_values, model_gb.X_test, plot_type='bar')
-shap.summary_plot(shap_values, model_gb.X_test)
-shap.decision_plot(explainer.expected_value[0], shap_values[0], model_gb.X_test.columns)
+explainer = shap.Explainer(model_gb_shap)
+shap_values = explainer(X_test)
+
+# Summary plot
+shap.summary_plot(shap_values, X_test, plot_type='bar')
+
+# Bar plot
+shap.plots.bar(shap_values)
+
+# Beeswarm plot
+shap.plots.beeswarm(shap_values, max_display=20)
+
+# Dependence plot - 1 feature
+shap.plots.scatter(shap_values[:, 'OPTIME'])
+shap.plots.scatter(shap_values[:, "OPTIME"], color=shap_values)
+
+# Dependence plot - 2 features
+shap.plots.scatter(shap_values[:, 'feature1'],
+                   color=shap_values[:, 'feature2'])
+
+shap.summary_plot(shap_values, X_test)
+shap.decision_plot(explainer.expected_value[0], shap_values[0], X_test.columns)
+
+
+#2) from model_gb - iteration 7 synthetic data generation
+# get feature importances
+
+
+importances = model_gb.model.feature_importances_
+
+# convert the importances into one-dimensional 1darray with corresponding df column names as axis labels
+f_importances = pd.Series(importances, df.iloc[:, 1:].columns)
+
+# sort the array in descending order of the importances
+f_importances.sort_values(ascending=True, inplace=True)
+
+# plot
+# f_importances.plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+# plt.xlabel('Feature Importances')
+# plt.title('Feature Importances (126) - Gradient Boosting')
+# plt.tight_layout()
+# plt.show()
+
+f_importances[-20:].plot(y='Features', x='Importance', kind='barh', figsize=(16, 9), fontsize=6)
+plt.xlabel('Feature Importances')
+plt.title('Feature Importances TOP 20 - Gradient Boosting')
+plt.show()
+
+### 4.2. SHAP
+df_syn_bay = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2018_2022/CABG_synthetic_Bayesian.csv')
+df_syn_bay = df_syn_bay.drop(['PUFYEAR'], axis=1)
+
+
+random_state = 100
+test_size = .25
+target = 'OTHBLEED'
+n_estimators = 300
+learning_rate = 0.05
+
+# build the model
+
+X = df.drop([target], axis=1)
+y = df[target]
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
+
+# class_names = df[target].unique()
+# feature_names = df.drop([target], axis=1).columns.to_list()
+
+# creating the classifier object
+model_gb_syn_bay_shap = GradientBoostingClassifier(n_estimators=n_estimators, random_state=random_state,
+                                        learning_rate=learning_rate)
+model_gb_syn_bay_shap.fit(X_train, y_train)
+#
+# # calculate needed metrics
+# y_pred_gb = Model_Predict(target, model_gb.model_name, model_gb.model, model_gb.X_test)
+# accuracy_gb = Model_Accuracy(target, model_gb.model_name, random_state, model_gb.model, model_gb.y_test, y_pred_gb)
+# mean_accuracy_gb = Model_Mean_Accuracy(target, model_gb.model_name, k_folds, random_state, model_gb.model, model_gb.X, model_gb.y)
+# rmse_gb = Model_RMSE(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
+# f1_gb = Model_F1(target, model_gb.model_name, model_gb.y_test, y_pred_gb)
+# auc_gb = Model_ROC_AUC_Score(target, model_gb.model_name, model_gb.model, model_gb.X_test, model_gb.y_test)
+# # results table
+# results_gb = Model_Results_Table(model_gb.model_name, model_gb.parameters, target, test_size, accuracy_gb, mean_accuracy_gb, k_folds, rmse_gb, f1_gb, auc_gb)
+
+import shap
+explainer_syn_bay = shap.Explainer(model_gb_syn_bay_shap)
+shap_values_syn_bay = explainer_syn_bay(X_test)
+shap.summary_plot(shap_values_syn_bay, X_test, plot_type='bar')
+
+# Beeswarm plot
+shap.plots.beeswarm(shap_values_syn_bay, max_display=20)
+
+# Dependence plot - 1 feature
+shap.plots.scatter(shap_values_syn_bay[:, 'OPTIME'])
+
+# Dependence plot - 2 features
+shap.plots.scatter(shap_values_syn_bay[:, 'feature1'],
+                   color=shap_values_syn_bay[:, 'feature2'])
+
 
 ### 4.3. LIME
 import lime
