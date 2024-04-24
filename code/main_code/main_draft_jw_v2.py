@@ -133,6 +133,12 @@ df_syn_bay = df_syn_bay.drop(['PUFYEAR'], axis=1)
 df_8yr_preselect41 = pd.read_csv(r'https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2015_2022/CABG_8yr_preselect41.csv')
 df_8yr_feature40 = df_8yr_preselect41.drop(['PUFYEAR'], axis=1)
 
+# ==========================================================
+# iteration 9 -    Synthetic data - realtabformer   ||
+# ==========================================================
+
+df_syn_realtabformer = pd.read_csv('https://raw.githubusercontent.com/jennytsai32/Capstone/master/code/main_code/processed_data/2015_2022/realtabformer_data.csv')
+
 
 ########################################################################
 ########################################################################
@@ -144,7 +150,7 @@ df_8yr_feature40 = df_8yr_preselect41.drop(['PUFYEAR'], axis=1)
 
 
 # set cross-cutting variables
-df = df_5yr_preselect41_no_year
+df = df_syn_realtabformer
 random_state = 100
 test_size = .25
 target = 'OTHBLEED'
