@@ -1,4 +1,4 @@
-## Capstone Project- Predicting blodd transfusions in CABG patients
+## Capstone Project- Predicting blood transfusions in CABG patients
 ### team: Jenny Tsai & Jichong Wu
 ### advisor: Professor Amir Jafari
 
@@ -22,7 +22,6 @@ ___
   - journal manuscript submitted to Neural Computing and Applications
 
 ```
-.
 ├── code
 │   ├── component
 │   └── main_code
