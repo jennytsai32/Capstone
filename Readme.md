@@ -1,46 +1,38 @@
-## Folder Structure
+## Capstone Project- Predicting blodd transfusions in CABG patients
+### team: Jenny Tsai & Jichong Wu
+### advisor: Professor Amir Jafari
+
 ___
 - code
-  - component: All classes and function needs to be here.
-  - main_code: Main loop codr needs to be here
-- demo
-  - fig
-- research paper
-  - Latex template
-  - Word template
-  - Markdown
-- presentation
+  - component: all utilities the project used, such as classes and functions for data preprocessing (datasci), classical modeling, and glossary (a data dictionary for feature definition)
+  - main_code: Python codes for the project from start to end, including:
+    1. data preprocessing
+    2. feature selection (e.g., random forest, PCA)
+    3. feature engineering (e.g., autofeat, t-pot)
+    4. synthetic data generation (DataSynthesizer & REaLTabFormer)
+    5. classical modeling (e.g., decision tree, GradientBoosting, SVM)
+    6. deep neural networks (FNN & CNN)
+    
 - full_report
-  - Latex template
-  - Word template
-  - Markdown
+  - MS Word reports documenting all the results, including mid-term report and final report
+- presentation
+  - project presentation slides and video
+- research paper
+  - conference abstract submitted to the Anesthesiology Annual Meeting, ASA
+  - journal manuscript submitted to Neural Computing and Applications
 
 ```
 .
 ├── code
 │   ├── component
 │   └── main_code
-├── demo
-│   └── fig
 ├── full_report
-│   ├── Latex_report
-│   │   └── fig
-│   ├── Markdown_Report
-│   └── Word_Report
 ├── presentation
 └── research_paper
-    ├── Latex
-    │   └── Fig
-    └── Word
 ```
 
 ___
-## Instruction for facing GitHub page
-
-- Every group need to summarize the whole project to a one-minute video.
-- It should showcase the main points. 
 
 
-![Watch the video](../Sample_Capstone/demo/fig/demo.gif)
 
 
