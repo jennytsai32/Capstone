@@ -14,9 +14,11 @@ ___
     6. deep neural networks (FNN & CNN)
     
 - full_report
-  - MS Word reports documenting all the results, including mid-term report and final report
+  - MS Word reports documenting all the results, including mid-term report, final report, and working sessions notes
+  
 - presentation
   - project presentation slides and video
+  
 - research paper
   - conference abstract submitted to the Anesthesiology Annual Meeting, ASA
   - journal manuscript submitted to Neural Computing and Applications
