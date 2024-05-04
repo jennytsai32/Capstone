@@ -1,3 +1,0 @@
- - Basic_Classification_Models.py is the class file for all the baseline models
- - JW_model_class.py will need to be incorporate into the main.py file later after checking in with team member (Jenny)
- - The rest .py files are code and draft developed during the coding process 
